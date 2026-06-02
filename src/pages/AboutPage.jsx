@@ -1,102 +1,213 @@
-import { Link } from 'react-router-dom'
-
+import { Link } from "react-router-dom";
+import himanshu from "../assets/himanshu.jpg";
+import sandeep from "../assets/sandeep.jpg";
+import avinash from "../assets/avinash.jpg";
 export default function AboutPage() {
   return (
     <div>
-      <div className="bg-secondary/60 border-b border-border">
+      {/* Header */}
+      <div className="bg-gray-900 text-white border-b border-gray-700">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-          <div className="text-sm text-light">Home / About Us</div>
-          <h1 className="mt-2 text-3xl sm:text-4xl font-bold">About Us</h1>
+          <div className="flex items-center gap-2 text-sm text-gray-400">
+            Home <span className="text-gray-500">::</span> About Us
+          </div>
+          <h1 className="mt-2 text-4xl font-bold">About Us</h1>
         </div>
       </div>
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-        <section className="rounded-3xl border border-border bg-white p-6 sm:p-10 shadow-sm">
-          <h2 className="text-2xl font-bold">Our Vision</h2>
-          <p className="mt-4 text-light leading-relaxed">
-            Shree Vrindavan Real Estate Pvt. Ltd. is committed to offering trustworthy property solutions with
-            transparency, quality guidance and customer-first service. Our goal is to help clients invest in
-            promising locations and grow with confidence.
-          </p>
+        {/* OUR VISION Section */}
+        <section className="mb-16">
+          <h2 className="text-3xl font-bold text-center mb-2">OUR VISION</h2>
+
+          <div className="max-w-4xl mx-auto">
+            <h3 className="text-xl font-semibold text-center text-blue-600 mb-6">
+              Introduction
+            </h3>
+
+            <p className="text-gray-600 leading-relaxed text-sm text-center">
+              Vrindavan Real Estate in Jaipur is a rapidly developing sector,
+              offering prime residential and commercial properties in one of the
+              city's most sought-after areas. Known for its serene environment
+              and strategic location, Vrindavan is a favorite among investors
+              and homebuyers looking for a blend of modern living with a touch
+              of traditional charm. With excellent connectivity to key areas of
+              Jaipur, including educational institutions, healthcare centers,
+              and commercial hubs, Vrindavan Real Estate presents lucrative
+              opportunities for both long-term investments and immediate housing
+              needs. The area is also seeing a rise in luxury projects, making
+              it ideal for those seeking premium lifestyle options.
+            </p>
+          </div>
         </section>
 
-        <section className="mt-8">
-          <h2 className="text-2xl font-bold">Directors</h2>
-          <div className="mt-6 grid gap-4 md:grid-cols-3">
-            {[
-              { name: 'Himanshu Singh', role: 'CEO & Founder' },
-              { name: 'Sandeep Singh', role: 'Director' },
-              { name: 'Avinash Singh', role: 'Director' },
-            ].map((d) => (
-              <div key={d.name} className="rounded-3xl border border-border bg-white p-6 shadow-sm">
-                <div className="h-24 w-24 rounded-3xl bg-secondary/70 border border-border flex items-center justify-center font-bold text-primary">
-                  {d.name.split(' ').map((x) => x[0]).join('')}
-                </div>
-                <div className="mt-4 font-bold text-lg">{d.name}</div>
-                <div className="mt-1 text-sm text-light">{d.role}</div>
+        {/* Directors Section */}
+        <section className="mb-20 max-w-4xl mx-auto">
+          <div className="text-center mb-10">
+            <p className="text-blue-600 font-medium">Vrindavan Real Estate</p>
+            <h2 className="text-3xl font-bold mt-1">DIRECTORS</h2>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-4">
+            {/* Himanshu Singh */}
+            <div className=" flex flex-col md:flex-row items-center">
+              <div className="mx-auto w-34 h-34 rounded-full overflow-hidden border-4 border-white shadow-xl">
+                <img
+                  src={himanshu}
+                  alt="Himanshu Singh"
+                  className="w-full h-full object-cover"
+                />
               </div>
-            ))}
-          </div>
-        </section>
 
-        <section className="mt-10">
-          <h2 className="text-2xl font-bold">Human Capital</h2>
-          <div className="mt-6 rounded-3xl border border-border bg-white overflow-hidden">
-            <div className="grid grid-cols-2 sm:grid-cols-4 bg-secondary/60 text-sm font-bold px-4 py-3 border-b border-border">
-              <div className="sm:col-span-2">Role</div>
-              <div className="hidden sm:block">Avg Years</div>
-              <div className="hidden sm:block">Count</div>
-            </div>
-            <div className="divide-y divide-border">
-              {[
-                ['CA', '3 - 7 Years', ' '],
-                ['MBA', '6 - 19 Years', ' '],
-                ['Graduates', '8 - 25 Years', ' '],
-                ['Technical Professionals', '12 - 21 Years', ' '],
-              ].map(([role, yrs]) => (
-                <div key={role} className="grid grid-cols-2 sm:grid-cols-4 px-4 py-4 text-sm">
-                  <div className="font-semibold">{role}</div>
-                  <div className="text-light sm:col-span-1">{yrs}</div>
-                  <div className="text-light hidden sm:block">—</div>
-                  <div className="text-light hidden sm:block">—</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+              <div className="md:ml-4">
+                <h3 className="text-xl font-bold">Himanshu Singh</h3>
 
-        <section className="mt-10">
-          <h2 className="text-2xl font-bold">Running Projects</h2>
-          <div className="mt-6 rounded-3xl border border-border bg-white overflow-hidden">
-            <div className="grid grid-cols-1 sm:grid-cols-3 bg-secondary/60 px-4 py-3 text-sm font-bold border-b border-border">
-              <div>Project</div>
-              <div className="sm:col-span-2">Details</div>
+                <p className="text-gray-600">CEO & Founder</p>
+              </div>
             </div>
-            <div className="divide-y divide-border">
-              {[
-                ['Vasundhara Nagar', 'Residential plots in prime Jaipur location.'],
-                ['Shridhar Nagar', 'Residential and commercial mix with connectivity focus.'],
-                ['Urmila Enclave', 'Large plots for residential and future mixed-use development.'],
-              ].map(([name, desc]) => (
-                <div key={name} className="grid grid-cols-1 sm:grid-cols-3 px-4 py-4">
-                  <div className="font-semibold">{name}</div>
-                  <div className="sm:col-span-2 text-light">{desc}</div>
-                </div>
-              ))}
+
+            {/* Sandeep Singh */}
+            <div className="text-center flex flex-col md:flex-row items-center ">
+              <div className="mx-auto w-34 h-34 rounded-full overflow-hidden border-4 border-white shadow-xl">
+                <img
+                  src={sandeep}
+                  alt="Sandeep Singh"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div>
+                <h3 className="mt-6 text-xl font-bold">Sandeep Singh</h3>
+                <p className="text-gray-600">Director</p>
+              </div>
+            </div>
+
+            {/* Avinash Singh */}
+            <div className="text-center flex flex-col md:flex-row items-center ">
+              <div className="mx-auto w-34 h-34 rounded-full overflow-hidden border-4 border-white shadow-xl">
+                <img
+                  src={avinash}
+                  alt="Avinash Singh"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div>
+                <h3 className="mt-6 text-xl font-bold">Avinash Singh</h3>
+                <p className="text-gray-600">Director</p>
+              </div>
             </div>
           </div>
         </section>
 
-        <div className="mt-10 text-center">
-          <Link
-            to="/projects"
-            className="inline-flex items-center justify-center rounded-xl bg-primary text-white px-6 py-3 font-semibold shadow-sm hover:shadow-md transition"
-          >
-            Explore Projects
-          </Link>
-        </div>
+        {/* Human Capital */}
+        <section className="mb-10 max-w-4xl mx-auto">
+          <h2 className="text-xl font-bold text-center mb-2">Human Capital</h2>
+
+          <div className="overflow-x-auto   border border-gray-200">
+            <table className="w-full">
+              <thead className="bg-gray-100">
+                <tr>
+                  <th className="px-6 py-4 text-left">S.No.</th>
+                  <th className="px-6 py-4 text-left">Qualification</th>
+                  <th className="px-6 py-4 text-left">
+                    Total No. of Professionals
+                  </th>
+                  <th className="px-6 py-4 text-left">
+                    Average Work Experience
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y">
+                <tr className="bg-white">
+                  <td className="px-6 py-4">1</td>
+                  <td className="px-6 py-4 font-medium">CA</td>
+                  <td className="px-6 py-4">3</td>
+                  <td className="px-6 py-4">7 years</td>
+                </tr>
+                <tr className="bg-gray-50">
+                  <td className="px-6 py-4">2</td>
+                  <td className="px-6 py-4 font-medium">MBA</td>
+                  <td className="px-6 py-4">19</td>
+                  <td className="px-6 py-4">6 years</td>
+                </tr>
+                <tr className="bg-white">
+                  <td className="px-6 py-4">3</td>
+                  <td className="px-6 py-4 font-medium">Graduates</td>
+                  <td className="px-6 py-4">25</td>
+                  <td className="px-6 py-4">8 years</td>
+                </tr>
+                <tr className="bg-gray-50">
+                  <td className="px-6 py-4">3</td>
+                  <td className="px-6 py-4 font-medium">
+                    Technical Professional
+                  </td>
+                  <td className="px-6 py-4">21</td>
+                  <td className="px-6 py-4">12 years</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        {/* Running Projects */}
+        <section className="mb-10 max-w-4xl mx-auto">
+          <h2 className="text-xl font-bold text-center mb-10">
+            Project Management Running Project
+          </h2>
+
+          <div className="overflow-x-auto   border border-gray-200">
+            <table className="w-full min-w-full">
+              <thead className="bg-gray-100">
+                <tr>
+                  <th className="px-4 py-4 text-left">S.No.</th>
+                  <th className="px-4 py-4 text-left">Project Name</th>
+                  <th className="px-4 py-4 text-left">Project Address</th>
+                  <th className="px-4 py-4 text-left">Project Type</th>
+                  <th className="px-4 py-4 text-left">No. of Units</th>
+                  <th className="px-4 py-4 text-left">
+                    Built Of Address (Lac sq.ft.Approx)
+                  </th>
+                  <th className="px-4 py-4 text-left">Status</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y">
+                <tr>
+                  <td className="px-4 py-5">1</td>
+                  <td className="px-4 py-5 font-medium">Vasundhara Nagar</td>
+                  <td className="px-4 py-5">Jaipur Rajasthan</td>
+                  <td className="px-4 py-5">Plot</td>
+                  <td className="px-4 py-5">245 Flats</td>
+                  <td className="px-4 py-5">18.11</td>
+                  <td className="px-4 py-5 text-green-600 font-medium">
+                    Running
+                  </td>
+                </tr>
+                <tr className="bg-gray-50">
+                  <td className="px-4 py-5">2</td>
+                  <td className="px-4 py-5 font-medium">Sridhar Nagar</td>
+                  <td className="px-4 py-5">Jaipur Rajasthan</td>
+                  <td className="px-4 py-5">Plot</td>
+                  <td className="px-4 py-5">120 Units</td>
+                  <td className="px-4 py-5">2.0</td>
+                  <td className="px-4 py-5 text-green-600 font-medium">
+                    Running
+                  </td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-5">3</td>
+                  <td className="px-4 py-5 font-medium">Urmila Enclave</td>
+                  <td className="px-4 py-5">Jaipur Rajasthan</td>
+                  <td className="px-4 py-5">Plot</td>
+                  <td className="px-4 py-5">502 Flats</td>
+                  <td className="px-4 py-5">2.75</td>
+                  <td className="px-4 py-5 text-green-600 font-medium">
+                    Running
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
       </div>
     </div>
-  )
+  );
 }
-
