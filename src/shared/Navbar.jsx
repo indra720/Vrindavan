@@ -1,122 +1,155 @@
-import { useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
-import { Phone, Menu, X } from 'lucide-react'
-import vrindalogo from "../assets/Vrinda-logo.png"
+import { useState, useEffect } from "react";
+import { NavLink } from "react-router-dom";
+import { 
+  FaFacebookF, 
+  FaTwitter, 
+  FaInstagram, 
+  FaLinkedinIn 
+} from "react-icons/fa";
+import { IoMail, IoCall, IoMenu, IoClose } from "react-icons/io5";
+
+import vrindalogo from "../assets/Vrinda-logo.png";
 
 const navItems = [
-  { to: '/', label: 'Home' },
-  { to: '/about', label: 'About Us' },
-  { to: '/projects', label: 'Projects' },
-  { to: '/blog', label: 'Blog' },
-  { to: '/events', label: 'Events' },
-  { to: '/contact', label: 'Contact' },
-]
-
-function NavItem({ to, label }) {
-  return (
-    <NavLink
-      to={to}
-      end={to === '/'}
-      className={({ isActive }) =>
-        `px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-200 ${isActive ? 'text-primary bg-white border border-primary/20 shadow-sm' : 'text-dark hover:text-primary'}`
-      }
-    >
-      {label}
-    </NavLink>
-  )
-}
+  { to: "/", label: "HOME" },
+  { to: "/about", label: "ABOUT US" },
+  { to: "/projects", label: "PROJECTS" },
+  { to: "/blog", label: "BLOG" },
+  { to: "/events", label: "EVENT" },
+  { to: "/contact", label: "CONTACT" },
+];
 
 export default function Navbar() {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-border shadow-sm">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="h-20 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-           
-            <div className="leading-tight hidden lg:block text-dark">
-              {/* <div className="text-lg font-bold tracking-tight">Vrindavan Real Estate</div>
-              <div className="text-[10px] text-primary font-bold uppercase tracking-widest">Heritage • Trust • Growth</div> */}
-              <img src={vrindalogo} alt="vrinda logo" className="h-18 w-30" />
-            </div>
+    <header className={`w-full bg-white z-50 transition-all duration-300 ${isScrolled ? "fixed top-0 left-0 shadow-md" : "relative"}`}>
+      {/* ================= DESKTOP NAVBAR (Hidden on Mobile) ================= */}
+      <div className="hidden lg:block w-full">
+        {/* Full Width Wrapper */}
+        <div className={`relative flex w-full overflow-hidden transition-all duration-300 ${isScrolled ? "h-20" : "min-h26.25"}`}>
+
+          {/* 1. Logo Container */}
+          <div 
+            className={`transition-all duration-300 z-20 flex items-center justify-center px-8 relative ${
+              isScrolled 
+                ? "w-[20%] bg-white py-2" 
+                : "w-[28%] bg-[#f4f4f4] py-2"
+            }`}
+            style={!isScrolled ? {
+              clipPath: "polygon(0 0, 100% 0, 88% 100%, 0% 100%)",
+            } : {}}
+          >
+            <img
+              src={vrindalogo}
+              alt="Vrindavan Real Estate"
+              className={`transition-all duration-300 object-contain ${isScrolled ? "h-15" : "h-20"}`}
+            />
           </div>
 
-          {/* Desktop nav */}
-          <nav className="hidden lg:block">
-            <div className="flex items-center gap-2 rounded-full border border-border bg-secondary/50 px-3 py-1.5 shadow-inner">
-              {navItems.map((item) => (
-                <NavItem key={item.to} to={item.to} label={item.label} />
-              ))}
-            </div>
-          </nav>
+          {/* 2. Right Side Content */}
+          <div className={`flex-1 flex flex-col transition-all duration-300 ${isScrolled ? "ml-0" : "ml-[-4%]"}`}>
 
-          {/* Right */}
-          <div className="hidden lg:flex items-center gap-4">
-            <a href="tel:+917014289408" className="text-sm font-bold text-dark hover:text-primary transition-colors">
-              +91 7014289408
-            </a>
-            <Link
-              to="/contact"
-              className="inline-flex items-center gap-2 rounded-full bg-accent text-white px-6 py-2.5 text-sm font-bold shadow-md hover:bg-primary transition-all duration-300"
-            >
-              <Phone className="h-4 w-4" />
-              Site Visit
-            </Link>
-          </div>
+            {/* Top Bar (Black) - Hidden on scroll */}
+            {!isScrolled && (
+              <div 
+                className="bg-[#2d2d2d] h-9 flex items-center justify-between pl-20 pr-10 text-white"
+                style={{
+                  clipPath: "polygon(35px 0, 100% 0, 100% 100%, 0 100%)"
+                }}
+              >
+                <div className="flex items-center gap-4">
+                  <IoMail size={16} className="text-[#c89b3c]" />
+                  <a href="mailto:info@vrindavanrealestate.in" className="text-[13px] font-medium hover:text-[#c89b3c] transition-colors">
+                    info@vrindavanrealestate.in
+                  </a>
+                </div>
+                <div className="flex items-center gap-6">
+                  <a href="#" className="hover:text-[#c89b3c] transition-colors"><FaFacebookF size={13} /></a>
+                  <a href="#" className="hover:text-[#c89b3c] transition-colors"><FaTwitter size={13} /></a>
+                  <a href="#" className="hover:text-[#c89b3c] transition-colors"><FaInstagram size={13} /></a>
+                  <a href="#" className="hover:text-[#c89b3c] transition-colors"><FaLinkedinIn size={13} /></a>
+                </div>
+              </div>
+            )}
 
-          {/* Mobile */}
-          <div className="flex items-center justify-between w-full  lg:hidden">
-
-             <div className="">
-             
-              <img src={vrindalogo} alt="vrinda logo" className="h-12 w-20 sm:h-18 sm:w-30" />
-            </div>
-            <button
-              className="inline-flex items-center justify-center rounded-xl border border-border bg-white p-2"
-              onClick={() => setOpen((s) => !s)}
-              aria-label="Toggle menu"  
-            >
-              {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </button>
-          </div>  
-        </div>
-
-        {open && (
-          <div className="lg:hidden pb-4">
-            <div className="rounded-2xl border border-border bg-white shadow-xl p-4 mt-2">
-              <div className="grid gap-2">
+            {/* Main Nav Bar (White) */}
+            <div className={`bg-white flex-1 flex items-center justify-between pr-10 transition-all duration-300 ${isScrolled ? "pl-10" : "pl-16"}`}>
+              <nav className="flex items-center gap-7 xl:gap-10">
                 {navItems.map((item) => (
                   <NavLink
                     key={item.to}
                     to={item.to}
-                    end={item.to === '/'}
-                    onClick={() => setOpen(false)}
+                    end={item.to === "/"}
                     className={({ isActive }) =>
-                      `px-4 py-3 rounded-xl text-sm font-bold uppercase tracking-widest transition-all ${isActive ? 'text-dark bg-primary' : 'text-dark bg-secondary/50 hover:bg-secondary'}`
+                      `font-bold text-[13px] xl:text-[14px] tracking-widest transition-all duration-300 ${
+                        isActive ? "text-[#c89b3c]" : "text-black hover:text-[#c89b3c]"
+                      }`
                     }
                   >
                     {item.label}
                   </NavLink>
                 ))}
-              </div>
+              </nav>
 
-              <div className="mt-4 pt-4 border-t border-border flex flex-col gap-3">
-                <a href="tel:+917014289408" className="text-center font-bold text-dark py-2">
-                  +91 7014289408
-                </a>
-                <Link
-                  to="/contact"
-                  onClick={() => setOpen(false)}
-                  className="rounded-full bg-dark text-primary py-4 text-center font-bold shadow-lg border border-primary/20"
-                >
-                  Book Site Visit
-                </Link>
+              <div className="flex items-center gap-4">
+                <div className={`p-2 rounded-full transition-all duration-300 ${isScrolled ? "bg-gray-100" : "bg-[#246BFD]/10"}`}>
+                  <IoCall size={24} className={isScrolled ? "text-gray-600" : "text-[#246BFD]"} />
+                </div>
+                <div className="whitespace-nowrap">
+                  <p className="text-[9px] font-bold text-black uppercase leading-none mb-1">CALL US NOW</p>
+                  <a href="tel:+917014289408" className="text-[16px] xl:text-[18px] font-extrabold text-gray-500 hover:text-[#c89b3c] transition-colors">
+                    +91 7014289408
+                  </a>
+                </div>
               </div>
             </div>
           </div>
-        )}
+        </div>
       </div>
+
+      {/* ================= MOBILE NAVBAR ================= */}
+      <div className={`lg:hidden flex items-center justify-between px-6 py-4 border-b bg-white ${isScrolled ? "fixed top-0 left-0 w-full shadow-sm" : "relative"}`}>
+        <img src={vrindalogo} alt="Logo" className="h-14 object-contain" />
+        <button onClick={() => setOpen(!open)} className="text-[#2d2d2d]">
+          {open ? <IoClose size={30} /> : <IoMenu size={30} />}
+        </button>
+      </div>
+
+      {open && (
+        <div className="lg:hidden bg-white border-b fixed top-22.25 left-0 w-full z-50 shadow-lg animate-in slide-in-from-top duration-300">
+          <div className="p-6 space-y-4">
+            {navItems.map((item) => (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                onClick={() => setOpen(false)}
+                className="block font-bold text-sm tracking-widest text-[#2d2d2d] hover:text-[#c89b3c]"
+              >
+                {item.label}
+              </NavLink>
+            ))}
+            <div className="pt-4 border-t flex items-center gap-3">
+              <IoCall className="text-gray-600" />
+              <span className="font-bold text-gray-500">+91 7014289408</span>
+            </div>
+          </div>
+        </div>
+      )}
     </header>
-  )
+  );
 }
