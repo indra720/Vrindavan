@@ -4,18 +4,13 @@ import {
   FaChevronRight,
   FaMapMarkerAlt,
   FaCalendarAlt,
-  FaChevronUp,
-  FaChevronDown,
   FaCheckCircle,
-  FaWhatsapp,
-  FaFacebookF,
   FaSearch,
   FaBuilding,
   FaHome,
   FaRegComments,
   FaPlay,
 } from "react-icons/fa";
-import { IoCall } from "react-icons/io5";
 import { motion, AnimatePresence } from "framer-motion";
 
 import { useInView } from "react-intersection-observer";
@@ -51,7 +46,7 @@ const featured = [
       "https://images.unsplash.com/photo-1564013796385-7c3f3f3d4f18?auto=format&fit=crop&w=1200&q=80",
   },
   {
-    title: "Shridhar Nagar",
+    title: "Sridhar Nagar",
     location: "Jaipur, Rajasthan",
     desc: "Strategically located residential and commercial plots ideal for long-term investment.",
     price: "Starting from ₹8 Lac",
@@ -127,7 +122,7 @@ const areas = [
     img: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=400&q=80",
   },
   {
-    name: "Shridhar Nagar",
+    name: "Sridhar Nagar",
     count: "8 Plots",
     img: "https://images.unsplash.com/photo-1564013796385-7c3f3f3d4f18?auto=format&fit=crop&w=400&q=80",
   },
@@ -212,31 +207,6 @@ export default function HomePage() {
     threshold: 0.1,
   });
 
-  const [showScrollTop, setShowScrollTop] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 300) {
-        setShowScrollTop(true);
-      } else {
-        setShowScrollTop(false);
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const scrollToBottom = () => {
-    window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      behavior: "smooth",
-    });
-  };
-
   const [currentReview, setCurrentReview] = useState(0);
   const [clientReview, setClientReview] = useState(0);
   const [direction, setDirection] = useState(1);
@@ -265,71 +235,6 @@ export default function HomePage() {
 
   return (
     <div className="bg-white text-dark relative">
-      {/* Fixed Social Sidebar */}
-      <div className="fixed right-0 top-1/2 -translate-y-1/2 z-100 flex flex-col gap-0.5">
-        {/* Facebook */}
-        <a href="#" className="group flex items-center justify-end">
-          <div className="bg-blue-600 text-white flex items-center justify-end overflow-hidden transition-all duration-300 w-12 group-hover:w-40 h-12 rounded-l-md shadow-lg">
-            <span className="px-4 font-bold text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex-1 text-center">
-              Facebook
-            </span>
-            <div className="w-12 h-12 flex items-center justify-center shrink-0">
-              <FaFacebookF size={20} />
-            </div>
-          </div>
-        </a>
-
-        {/* WhatsApp/Mobile */}
-        <a
-          href="https://wa.me/917014289408"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group flex items-center justify-end"
-        >
-          <div className="bg-green-500 text-white flex items-center justify-end overflow-hidden transition-all duration-300 w-12 group-hover:w-40 h-12 rounded-l-md shadow-lg">
-            <span className="px-4 font-bold text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex-1 text-center">
-              WhatsApp
-            </span>
-            <div className="w-12 h-12 flex items-center justify-center shrink-0">
-              <FaWhatsapp size={24} />
-            </div>
-          </div>
-        </a>
-
-        {/* Call Now */}
-        <a
-          href="tel:+917014289408"
-          className="group flex items-center justify-end"
-        >
-          <div className="bg-[#246BFD] text-white flex items-center justify-end overflow-hidden transition-all duration-300 w-12 group-hover:w-48 h-12 rounded-l-md shadow-lg">
-            <span className="px-4 font-bold text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex-1 text-center">
-              +91 7014289408
-            </span>
-            <div className="w-12 h-12 flex items-center justify-center shrink-0">
-              <IoCall size={22} />
-            </div>
-          </div>
-        </a>
-      </div>
-
-      {/* Scroll Navigation */}
-      <div className="fixed bottom-8 right-16 z-100 flex flex-col gap-2">
-        <button
-          onClick={scrollToTop}
-          className={`bg-primary text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:bg-primary/90 hover:-translate-y-1 ${showScrollTop ? "opacity-100 visible" : "opacity-0 invisible"}`}
-          aria-label="Scroll to top"
-        >
-          <FaChevronUp size={24} />
-        </button>
-        <button
-          onClick={scrollToBottom}
-          className="bg-dark text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:bg-dark/90 hover:translate-y-1"
-          aria-label="Scroll to bottom"
-        >
-          <FaChevronDown size={24} />
-        </button>
-      </div>
-
       {/* Hero Section with Video Background */}
       <section className="relative min-h-[90vh] flex items-center overflow-hidden">
         <div className="absolute inset-0 z-0">
@@ -370,16 +275,19 @@ export default function HomePage() {
           >
             {mainProjects.map((project, idx) => (
               <SwiperSlide key={idx} className="h-auto!">
-                <div className="bg-white border border-secondary rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 h-full flex flex-col">
+                <Link 
+                  to={`/property/${encodeURIComponent(project.title)}`}
+                  className="bg-white border border-secondary rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 h-full flex flex-col group block"
+                >
                   <div className="h-64 overflow-hidden shrink-0">
                     <img
                       src={project.image}
                       alt={project.title}
-                      className="w-full h-full object-contain"
+                      className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110"
                     />
                   </div>
                   <div className="p-8 flex flex-col grow">
-                    <h3 className="text-2xl font-bold text-dark mb-3">
+                    <h3 className="text-2xl font-bold text-dark mb-3 group-hover:text-primary transition-colors">
                       {project.title}
                     </h3>
                     <p className="text-light leading-relaxed mb-6 grow">
@@ -390,7 +298,7 @@ export default function HomePage() {
                       {project.location}
                     </div>
                   </div>
-                </div>
+                </Link>
               </SwiperSlide>
             ))}
           </Swiper>
@@ -869,37 +777,30 @@ export default function HomePage() {
                 }}
                 className="bg-white shadow-lg overflow-hidden group hover:shadow-2xl transition-all duration-500"
               >
-                {/* Image */}
-
-                <div className="overflow-hidden h-70">
-                  <img
-                    src={blog.img}
-                    alt={blog.title}
-                    className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
-                  />
-                </div>
-
-                {/* Content */}
-
-                <div className="p-7">
-                  <div className="flex items-center gap-2 text-blue-600 font-semibold text-sm mb-4">
-                    <FaCalendarAlt />
-                    {blog.date}
+                <Link to="/blog-details" className="block">
+                  {/* Image */}
+                  <div className="overflow-hidden h-70">
+                    <img
+                      src={blog.img}
+                      alt={blog.title}
+                      className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
+                    />
                   </div>
 
-                  <h3 className="text-2xl font-bold text-gray-900 leading-snug mb-5 group-hover:text-blue-600 transition-all">
-                    {blog.title}
-                  </h3>
+                  {/* Content */}
+                  <div className="p-7">
+                    <div className="flex items-center gap-2 text-blue-600 font-semibold text-sm mb-4">
+                      <FaCalendarAlt />
+                      {blog.date}
+                    </div>
 
-                  <p className="text-gray-600 leading-8 mb-6">{blog.desc}</p>
+                    <h3 className="text-2xl font-bold text-gray-900 leading-snug mb-5 group-hover:text-blue-600 transition-all">
+                      {blog.title}
+                    </h3>
 
-                  <Link
-                    to="/blog"
-                    className="inline-flex items-center gap-2 text-blue-600 font-semibold hover:gap-4 transition-all"
-                  >
-                    Read More →
-                  </Link>
-                </div>
+                    <p className="text-gray-600 leading-8 mb-6">{blog.desc}</p>
+                  </div>
+                </Link>
               </motion.div>
             ))}
           </div>

@@ -1,94 +1,134 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Image as ImageIcon } from 'lucide-react'
-
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { Image as ImageIcon } from "lucide-react";
+import { motion } from "framer-motion";
+import e1 from "../assets/Events/event1.jpg";
+import e2 from "../assets/Events/event2.jpg";
+import e3 from "../assets/Events/e3.jpg";
+import v1 from "../assets/Events/video1.mp4";
+import e5 from "../assets/Events/e5.jpg";
+import e6 from "../assets/Events/e6.jpg";
+import e7 from "../assets/Events/e7.jpg";
+import e8 from "../assets/Events/e8.jpg";
+import v2 from "../assets/Events/video2.png";
+import e9 from "../assets/Events/e9.jpg";
+import e10 from "../assets/Events/e10.jpg";
+import e11 from "../assets/Events/e11.jpg";
+import v3 from "../assets/Events/video3.png";
+import v4 from "../assets/Events/video4.png";
 const events = [
   {
-    name: 'Shridhar Nagar',
-    date: 'Aug 25, 2024',
+    date: "Aug 25, 2024",
+    name: "Sridhar Nagar",
+    images: [e1, e2, e3, v1],
   },
   {
-    name: 'Vasundhara Nagar-II',
-    date: 'Sep 12, 2024',
+    date: "Aug 25, 2024",
+    name: "Sridhar Nagar",
+    images: [e5, e6, e7, v2],
   },
   {
-    name: 'Urmila Enclave',
-    date: 'Oct 05, 2024',
+    date: "Aug 25, 2024",
+    name: "Sridhar Nagar",
+    images: [e8, e5, e9, v3],
   },
-]
+  {
+    date: "Aug 25, 2024",
+    name: "Sridhar Nagar",
+    images: [e10, e11, e2, v4],
+  },
+];
 
 export default function EventsPage() {
-  const [open, setOpen] = useState(false)
-  const [active, setActive] = useState(events[0])
+  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState(events[0]);
 
   return (
     <div>
-      <div className="bg-secondary/60 border-b border-border">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-          <div className="text-sm text-light">Home / Events</div>
-          <h1 className="mt-2 text-3xl sm:text-4xl font-bold">Latest Events</h1>
+      <div className="bg-[#2e2c2c] text-white border-b border-gray-700">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 ">
+          <h1 className="mt-2 text-4xl font-bold">Latest Events</h1>
+          <div className="flex items-center gap-2 text-md text-gray-400 space-y-2">
+            Home <span className="text-gray-500">::</span> Latest Events
+          </div>
         </div>
       </div>
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {events.map((e) => (
-            <div key={e.name} className="rounded-3xl border border-border bg-white shadow-sm overflow-hidden">
-              <div
-                className="h-44 bg-cover bg-center"
-                style={{
-                  backgroundImage:
-                    'url(https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1200&q=80)',
-                }}
-              />
-              <div className="p-6">
-                <div className="font-bold text-lg">{e.name}</div>
-                <div className="mt-2 text-sm text-light font-semibold">{e.date}</div>
-                <button
-                  className="mt-5 inline-flex items-center justify-center gap-2 rounded-xl bg-secondary px-4 py-2 text-sm font-semibold border border-border hover:bg-secondary/90 transition w-full"
-                  onClick={() => {
-                    setActive(e)
-                    setOpen(true)
-                  }}
-                >
-                  <ImageIcon className="h-4 w-4" />
-                  View Gallery
-                </button>
+      <motion.p
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="text-blue-600 text-center text-2xl font-semibold py-4"
+      >
+        Our Latest Events
+      </motion.p>
+
+      <motion.h2
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        className="text-4xl font-bold text-center mt-3 mb-16"
+      >
+        Latest Events & Stories
+      </motion.h2>
+
+      <section className="py-10">
+        <div className="max-w-7xl mx-auto px-4">
+          {events.map((event, eventIndex) => (
+            <div key={eventIndex} className="mb-20">
+              <p className="font-semibold">Date: {event.date}</p>
+
+              <p className="font-semibold mb-6">Event: {event.name}</p>
+
+              <div className="grid md:grid-cols-4 gap-5">
+                {event.images?.map((img, index) => {
+                  const isVideo =
+                    typeof img === "string" && img.endsWith(".mp4");
+                  return (
+                    <motion.div
+                      key={index}
+                      initial={{
+                        opacity: 0,
+                        y: 100,
+                      }}
+                      whileInView={{
+                        opacity: 1,
+                        y: 0,
+                      }}
+                      viewport={{ once: true }}
+                      transition={{
+                        duration: 0.8,
+                        delay: index * 0.2,
+                      }}
+                    >
+                      {isVideo ? (
+                        <video
+                          src={img}
+                          className="w-full h-64 object-cover shadow-md rounded-lg"
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
+                        />
+                      ) : (
+                        <img
+                          src={img}
+                          alt=""
+                          className="w-full h-64 object-cover shadow-md rounded-lg"
+                        />
+                      )}
+                    </motion.div>
+                  );
+                })}
               </div>
+
+              <p className="font-semibold mt-4">Event: {event.name}</p>
             </div>
           ))}
         </div>
-
-        {open && (
-          <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
-            <div className="w-full max-w-3xl rounded-3xl border border-border bg-white shadow-lg overflow-hidden">
-              <div className="p-5 flex items-center justify-between border-b border-border">
-                <div>
-                  <div className="font-bold text-lg">{active.name}</div>
-                  <div className="text-sm text-light">{active.date}</div>
-                </div>
-                <button className="rounded-xl border border-border px-3 py-2 text-sm font-semibold hover:bg-secondary/60" onClick={() => setOpen(false)}>
-                  Close
-                </button>
-              </div>
-              <div className="p-5 grid grid-cols-2 sm:grid-cols-3 gap-3">
-                {Array.from({ length: 6 }).map((_, idx) => (
-                  <div key={idx} className="rounded-2xl border border-border overflow-hidden">
-                    <div
-                      className="h-28 bg-cover bg-center"
-                      style={{
-                        backgroundImage:
-                          'url(https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80)',
-                      }}
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
+      </section>
     </div>
-  )
+  );
 }
-

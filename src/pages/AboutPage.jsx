@@ -6,12 +6,12 @@ export default function AboutPage() {
   return (
     <div>
       {/* Header */}
-      <div className="bg-gray-900 text-white border-b border-gray-700">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+      <div className="bg-[#2e2c2c] text-white border-b border-gray-700">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4">
+          <h1 className="mt-2 text-4xl font-bold">About Us</h1>
           <div className="flex items-center gap-2 text-sm text-gray-400">
             Home <span className="text-gray-500">::</span> About Us
           </div>
-          <h1 className="mt-2 text-4xl font-bold">About Us</h1>
         </div>
       </div>
 
@@ -48,10 +48,10 @@ export default function AboutPage() {
             <h2 className="text-3xl font-bold mt-1">DIRECTORS</h2>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid md:grid-cols-2 gap-8">
             {/* Himanshu Singh */}
-            <div className=" flex flex-col md:flex-row items-center">
-              <div className="mx-auto w-34 h-34 rounded-full overflow-hidden border-4 border-white shadow-xl">
+            <div className="flex flex-col md:flex-row items-center gap-4 text-center md:text-left">
+              <div className="w-34 h-34 rounded-full overflow-hidden border-4 border-white shadow-xl shrink-0">
                 <img
                   src={himanshu}
                   alt="Himanshu Singh"
@@ -59,31 +59,15 @@ export default function AboutPage() {
                 />
               </div>
 
-              <div className="md:ml-4">
+              <div>
                 <h3 className="text-xl font-bold">Himanshu Singh</h3>
-
                 <p className="text-gray-600">CEO & Founder</p>
               </div>
             </div>
 
-            {/* Sandeep Singh */}
-            <div className="text-center flex flex-col md:flex-row items-center ">
-              <div className="mx-auto w-34 h-34 rounded-full overflow-hidden border-4 border-white shadow-xl">
-                <img
-                  src={sandeep}
-                  alt="Sandeep Singh"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div>
-                <h3 className="mt-6 text-xl font-bold">Sandeep Singh</h3>
-                <p className="text-gray-600">Director</p>
-              </div>
-            </div>
-
             {/* Avinash Singh */}
-            <div className="text-center flex flex-col md:flex-row items-center ">
-              <div className="mx-auto w-34 h-34 rounded-full overflow-hidden border-4 border-white shadow-xl">
+            <div className="flex flex-col md:flex-row items-center gap-4 text-center md:text-left">
+              <div className="w-34 h-34 rounded-full overflow-hidden border-4 border-white shadow-xl shrink-0">
                 <img
                   src={avinash}
                   alt="Avinash Singh"
@@ -91,7 +75,22 @@ export default function AboutPage() {
                 />
               </div>
               <div>
-                <h3 className="mt-6 text-xl font-bold">Avinash Singh</h3>
+                <h3 className="text-xl font-bold">Avinash Singh</h3>
+                <p className="text-gray-600">Director</p>
+              </div>
+            </div>
+
+            {/* Sandeep Singh */}
+            <div className="flex flex-col md:flex-row items-center gap-4 text-center md:text-left">
+              <div className="w-34 h-34 rounded-full overflow-hidden border-4 border-white shadow-xl shrink-0">
+                <img
+                  src={sandeep}
+                  alt="Sandeep Singh"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold">Sandeep Singh</h3>
                 <p className="text-gray-600">Director</p>
               </div>
             </div>

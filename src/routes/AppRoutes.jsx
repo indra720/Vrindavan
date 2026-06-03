@@ -19,6 +19,7 @@ export function AppRoutes() {
         <Route path="/projects" element={<ProjectsPage />} />
         <Route path="/property/:slug" element={<PropertyDetailsPage />} />
         <Route path="/blog" element={<BlogPage />} />
+        <Route path="/blog-details" element={<BlogPage />} />
         <Route path="/blog/:slug" element={<BlogDetailsPage />} />
         <Route path="/events" element={<EventsPage />} />
         <Route path="/contact" element={<ContactPage />} />
