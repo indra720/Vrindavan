@@ -33,7 +33,7 @@ export default function PropertyDetailsPage() {
           </div>
         </div>
       </div>
-
+      {/* main content  */}
       <section className="bg-[#f5f5f5] py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-[2fr_0.9fr] gap-8 ">
