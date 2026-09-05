@@ -26,79 +26,55 @@ export default function FloatingActions() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const scrollToBottom = () => {
-    window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      behavior: "smooth",
-    });
-  };
-
   return (
     <>
-      {/* Fixed Social Sidebar */}
-      <div className="fixed right-0 top-1/2 -translate-y-1/2 z-[100] flex flex-col gap-0.5">
+      {/* Fixed Social Sidebar (Circular icons matching reference image) */}
+      <div className="fixed right-3 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-2.5">
         {/* Facebook */}
-        <a href="#" className="group flex items-center justify-end">
-          <div className="bg-blue-600 text-white flex items-center justify-end overflow-hidden transition-all duration-300 w-12 group-hover:w-40 h-12 rounded-l-md shadow-lg">
-            <span className="px-4 font-bold text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex-1 text-center">
-              Facebook
-            </span>
-            <div className="w-12 h-12 flex items-center justify-center shrink-0">
-              <FaFacebookF size={20} />
-            </div>
-          </div>
-        </a>
-
-        {/* WhatsApp/Mobile */}
-        <a
-          href="https://wa.me/917014289408"
-          target="_blank"
+        <a 
+          href="https://www.facebook.com/vrindavanrealestatejaipur/" 
+          target="_blank" 
           rel="noopener noreferrer"
-          className="group flex items-center justify-end"
+          className="w-11 h-11 bg-[#1877F2] text-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform duration-300"
+          title="Facebook"
         >
-          <div className="bg-green-500 text-white flex items-center justify-end overflow-hidden transition-all duration-300 w-12 group-hover:w-40 h-12 rounded-l-md shadow-lg">
-            <span className="px-4 font-bold text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex-1 text-center">
-              WhatsApp
-            </span>
-            <div className="w-12 h-12 flex items-center justify-center shrink-0">
-              <FaWhatsapp size={24} />
-            </div>
-          </div>
+          <FaFacebookF size={18} />
         </a>
 
         {/* Call Now */}
-        <a
+        <a 
           href="tel:+917014289408"
-          className="group flex items-center justify-end"
+          className="w-11 h-11 bg-[#00A3E0] text-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform duration-300"
+          title="Call (+91) 7014289408"
         >
-          <div className="bg-[#246BFD] text-white flex items-center justify-end overflow-hidden transition-all duration-300 w-12 group-hover:w-48 h-12 rounded-l-md shadow-lg">
-            <span className="px-4 font-bold text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex-1 text-center">
-              +91 7014289408
-            </span>
-            <div className="w-12 h-12 flex items-center justify-center shrink-0">
-              <IoCall size={22} />
-            </div>
-          </div>
+          <IoCall size={19} />
+        </a>
+
+        {/* WhatsApp */}
+        <a
+          href="//api.whatsapp.com/send?phone=+917014289408&text=Hello!"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-11 h-11 bg-[#25D366] text-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform duration-300"
+          title="WhatsApp"
+        >
+          <FaWhatsapp size={22} />
         </a>
       </div>
 
-      {/* Scroll Navigation */}
-      <div className="fixed bottom-8 right-4 sm:right-16 z-[100] flex flex-col gap-2">
+      {/* Scroll Navigation (Blue circular button with white arrow matching reference screenshot) */}
+      <div className="fixed bottom-6 right-6 z-50">
         <button
           onClick={scrollToTop}
-          className={`bg-[#072f4a] text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:bg-[#072f4a]/90 hover:-translate-y-1 ${showScrollTop ? "opacity-100 visible" : "opacity-0 invisible"}`}
+          className={`w-12 h-12 bg-[#0078D4] text-white rounded-full shadow-2xl border-2 border-white flex items-center justify-center transition-all duration-300 hover:bg-[#005A9E] hover:scale-110 ${
+            showScrollTop ? "opacity-100 scale-100" : "opacity-0 scale-75 pointer-events-none"
+          }`}
           aria-label="Scroll to top"
         >
-          <FaChevronUp size={24} />
-        </button>
-        <button
-          onClick={scrollToBottom}
-          className="bg-dark text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:bg-dark/90 hover:translate-y-1"
-          aria-label="Scroll to bottom"
-        >
-          <FaChevronDown size={24} />
+          <FaChevronUp size={20} />
         </button>
       </div>
     </>
   );
 }
+

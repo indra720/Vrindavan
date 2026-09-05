@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   FaChevronRight,
+  FaChevronLeft,
   FaMapMarkerAlt,
   FaCalendarAlt,
   FaCheckCircle,
@@ -10,14 +11,16 @@ import {
   FaHome,
   FaRegComments,
   FaPlay,
+  FaTimes,
 } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 
 import { useInView } from "react-intersection-observer";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination } from "swiper/modules";
+import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
+import "swiper/css/navigation";
 import "swiper/css/autoplay";
 import heroVideo from "../assets/hero-video.mp4";
 import vasundhara from "../assets/vasundra.png";
@@ -68,18 +71,27 @@ const mainProjects = [
     title: "Vasundhara Nagar-II",
     desc: "Secure your future with prime residential plots available in Vrindavan’s top locations, offering the perfect foundation to build your dream home near sacred temples.",
     location: "Jaipur Rajasthan, India",
+    price: "Starting ₹12 Lac",
+    badge: "JDA Approved",
+    features: ["40ft Wide Road", "24/7 Security", "Gated Community"],
     image: vasundhara,
   },
   {
     title: "Sridhar Nagar",
     desc: "Invest in exclusive plots in Vrindavan, ideal for residential or commercial development. Choose from various sizes with easy access to key landmarks.",
     location: "Jaipur Rajasthan, India",
+    price: "Starting ₹8 Lac",
+    badge: "Prime Location",
+    features: ["Commercial Belt", "Street Lights", "Immediate Registry"],
     image: shreedhar,
   },
   {
     title: "Urmila Enclave",
     desc: "Whether you're a developer or an individual buyer, Vrindavan offers large plots suitable for residential complexes, farmhouses, or mixed-use projects.",
     location: "Jaipur Rajasthan, India",
+    price: "Starting ₹15 Lac",
+    badge: "High ROI",
+    features: ["Park Facing", "Water Line", "Eco Friendly"],
     image: urmila,
   },
 ];
@@ -201,7 +213,44 @@ const galleryProjects = [
   },
 ];
 
+// Animated Counter component that triggers on scroll into view
+const AnimatedCounter = ({ target, suffix = "", inView }) => {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!inView) return;
+    let start = 0;
+    const duration = 2000; // 2 seconds animation
+    const steps = 50;
+    const increment = target / steps;
+    const stepTime = duration / steps;
+
+    const timer = setInterval(() => {
+      start += increment;
+      if (start >= target) {
+        setCount(target);
+        clearInterval(timer);
+      } else {
+        setCount(Math.floor(start));
+      }
+    }, stepTime);
+
+    return () => clearInterval(timer);
+  }, [inView, target]);
+
+  return (
+    <span>
+      {count.toLocaleString()}
+      {suffix}
+    </span>
+  );
+};
+
 export default function HomePage() {
+  const swiperRef = useRef(null);
+  const investSwiperRef = useRef(null);
+  const [activeStep, setActiveStep] = useState(0);
+  const [activeModalStep, setActiveModalStep] = useState(null);
   const { ref, inView } = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -234,646 +283,1129 @@ export default function HomePage() {
   };
 
   return (
-    <div className="bg-white text-dark relative">
-      {/* Hero Section with Video Background */}
-      <section className="relative min-h-[90vh] flex items-center overflow-hidden">
+    <div className="bg-[#F4F6FA] text-slate-800 relative">
+      {/* Hero Section with Ambient Video & Luxury Overlay */}
+      <section className="relative min-h-[86vh] flex items-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <video
             autoPlay
             muted
             loop
             playsInline
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover scale-105"
           >
             <source src={heroVideo} type="video/mp4" />
           </video>
-          <div className="absolute inset-0 bg-primary/60" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#111827]/95 via-[#111827]/85 to-black/80" />
+        </div>
+
+        {/* Hero Overlay Content */}
+        <div className="relative z-10 max-w-7xl mx-auto px-6 py-16 md:py-20 w-full">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            className="max-w-3xl"
+          >
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-[#C89B3C] font-extrabold text-[11px] tracking-widest uppercase mb-4 shadow-lg">
+              <span className="w-2 h-2 rounded-full bg-[#C89B3C] animate-ping"></span>
+              REAL ESTATE DEVELOPERS IN JAIPUR
+            </div>
+            
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight tracking-tight mb-4">
+              Build Your Future With <br />
+              <span className="text-[#C89B3C]">
+                Vrindavan Real Estate
+              </span>
+            </h1>
+
+            <p className="text-slate-200 text-sm sm:text-base font-medium leading-relaxed mb-6 max-w-xl">
+              Discover prime residential and commercial plots in Jaipur’s fastest-growing corridors with high appreciation potential.
+            </p>
+
+            <div className="flex flex-wrap gap-3.5 items-center mb-8">
+              <Link 
+                to="/projects"
+                className="px-6 py-3 rounded-full bg-[#111827] hover:bg-black text-white font-extrabold text-xs tracking-wider uppercase shadow-xl hover:scale-105 transition-all duration-300 flex items-center gap-2.5 border border-slate-700 group"
+              >
+                Explore Projects
+                <FaChevronRight size={11} className="text-[#C89B3C] group-hover:translate-x-1 transition-transform" />
+              </Link>
+
+              <Link 
+                to="/contact"
+                className="px-6 py-3 rounded-full bg-white/10 text-white font-extrabold text-xs tracking-wider uppercase backdrop-blur-md border border-white/20 hover:bg-white hover:text-[#111827] transition-all duration-300 shadow-lg"
+              >
+                Contact Us
+              </Link>
+            </div>
+
+            {/* Floating Quick Trust Stats Bar */}
+            <div className="pt-6 border-t border-white/15 grid grid-cols-3 gap-4 max-w-lg">
+              <div>
+                <h4 className="text-xl sm:text-2xl font-black text-white">50 Lac+</h4>
+                <p className="text-[10px] font-bold text-slate-300 uppercase tracking-wider mt-0.5">Completed Property</p>
+              </div>
+              <div>
+                <h4 className="text-xl sm:text-2xl font-black text-[#C89B3C]">7600+</h4>
+                <p className="text-[10px] font-bold text-slate-300 uppercase tracking-wider mt-0.5">Property Sales</p>
+              </div>
+              <div>
+                <h4 className="text-xl sm:text-2xl font-black text-white">6500+</h4>
+                <p className="text-[10px] font-bold text-slate-300 uppercase tracking-wider mt-0.5">Satisfied Clients</p>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Main Plot Projects Section */}
-      <section className="py-10 bg-white">
+      <section className="py-20 bg-[#F4F6FA]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h1 className="text-md mb-5  sm:text-xl font-semibold text-center ">
-            <a href="#">Our Properties</a>
-          </h1>
-          <h2 className="text-2xl sm:text-3xl font-semibold text-center mb-10 underline underline-offset-8">
-            Our Featured Properties
-          </h2>
+          <div className="text-center mb-12">
+            <span className="px-4 py-1.5 rounded-full bg-[#111827] text-[#C89B3C] font-extrabold text-xs tracking-widest uppercase shadow-sm">
+              OUR EXCLUSIVE PORTFOLIO
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3 tracking-tight">
+              Our Featured Properties
+            </h2>
+            <div className="h-1 w-20 bg-[#C89B3C] mx-auto mt-3 rounded-full"></div>
+          </div>
+
           <Swiper
-            modules={[Autoplay, Pagination]}
-            spaceBetween={30}
+            onBeforeInit={(swiper) => {
+              swiperRef.current = swiper;
+            }}
+            modules={[Autoplay, Pagination, Navigation]}
+            spaceBetween={28}
             slidesPerView={1}
             loop={true}
             breakpoints={{
               768: { slidesPerView: 2 },
               1024: { slidesPerView: 3 },
             }}
-            autoplay={{ delay: 2000, disableOnInteraction: false }}
+            autoplay={{ delay: 3500, disableOnInteraction: false }}
             pagination={{ clickable: true }}
-            className="pb-12"
+            className="pb-10"
           >
             {mainProjects.map((project, idx) => (
               <SwiperSlide key={idx} className="h-auto!">
                 <Link 
                   to={`/property/${encodeURIComponent(project.title)}`}
-                  className="bg-white border border-secondary rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 h-full flex flex-col group block"
+                  className="relative h-[460px] rounded-3xl overflow-hidden shadow-xl group border border-slate-200 hover:shadow-2xl transition-all duration-500 block bg-slate-900"
                 >
-                  <div className="h-64 overflow-hidden shrink-0">
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110"
-                    />
+                  {/* Background Property Image with Smooth Zoom */}
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-contain p-2 transition-transform duration-700 ease-out group-hover:scale-105"
+                  />
+                  
+                  {/* Always-on Top & Bottom Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/60 group-hover:opacity-40 transition-opacity duration-500" />
+
+                  {/* Top Badges */}
+                  <div className="absolute top-4 left-4 z-10 flex items-center gap-2">
+                    <span className="bg-[#111827]/90 backdrop-blur-md text-white font-bold text-[11px] px-3 py-1 rounded-full border border-white/20 flex items-center gap-1.5 shadow-md">
+                      <FaMapMarkerAlt className="text-[#C89B3C] h-3 w-3" />
+                      Jaipur, Rajasthan
+                    </span>
                   </div>
-                  <div className="p-8 flex flex-col grow">
-                    <h3 className="text-2xl font-bold text-dark mb-3 group-hover:text-primary transition-colors">
+
+                  {project.badge && (
+                    <div className="absolute top-4 right-4 z-10 bg-[#C89B3C] text-[#111827] font-black text-[10px] tracking-widest uppercase px-3 py-1 rounded-full shadow-lg">
+                      {project.badge}
+                    </div>
+                  )}
+
+                  {/* Default State (Bottom Title & Price floating) - Hidden on Hover */}
+                  <div className="absolute bottom-0 inset-x-0 p-6 z-10 transition-all duration-500 ease-in-out transform group-hover:translate-y-full group-hover:opacity-0">
+                    <h3 className="text-2xl font-extrabold text-white tracking-tight mb-2 drop-shadow-md">
                       {project.title}
                     </h3>
-                    <p className="text-light leading-relaxed mb-6 grow">
-                      {project.desc}
-                    </p>
-                    <div className="flex items-center text-gray-400  text-sm uppercase tracking-wider mt-auto">
-                      <FaMapMarkerAlt className="h-4 w-4 mr-1" />
-                      {project.location}
+                    <div className="flex items-center justify-between pt-3 border-t border-white/20">
+                      <span className="text-[#C89B3C] font-black text-lg">
+                        {project.price}
+                      </span>
+                      <span className="text-white/80 font-bold text-xs flex items-center gap-1">
+                        Hover Overview <FaChevronRight size={10} className="text-[#C89B3C] rotate-[-90deg]" />
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Hover State: Slide-Up Glassmorphic Overview Panel */}
+                  <div className="absolute inset-x-0 bottom-0 bg-[#111827]/95 backdrop-blur-xl border-t-2 border-[#C89B3C] p-6 text-white rounded-t-3xl transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out z-20 flex flex-col justify-between shadow-2xl">
+                    <div>
+                      {/* Header */}
+                      <div className="flex items-center justify-between mb-2">
+                        <h4 className="text-xl font-extrabold text-[#C89B3C]">
+                          {project.title}
+                        </h4>
+                        <span className="text-[#C89B3C] font-black text-sm bg-white/5 border border-[#C89B3C]/30 px-2.5 py-0.5 rounded-lg">
+                          {project.price}
+                        </span>
+                      </div>
+
+                      <div className="flex items-center text-slate-300 font-semibold text-xs mb-3">
+                        <FaMapMarkerAlt className="h-3 w-3 text-[#C89B3C] mr-1.5 shrink-0" />
+                        <span>{project.location}</span>
+                      </div>
+
+                      {/* Brief Overview */}
+                      <p className="text-slate-300 leading-relaxed text-xs mb-4 line-clamp-3 font-medium">
+                        {project.desc}
+                      </p>
+
+                      {/* Feature Highlights Pills */}
+                      {project.features && (
+                        <div className="flex flex-wrap gap-1.5 mb-4">
+                          {project.features.map((feat, fIdx) => (
+                            <span 
+                              key={fIdx} 
+                              className="bg-white/10 text-white border border-white/15 text-[10px] font-bold px-2.5 py-1 rounded-md"
+                            >
+                              ✓ {feat}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* CTA Button inside Slide-Up Panel */}
+                    <div className="w-full bg-[#C89B3C] hover:bg-white text-[#111827] font-extrabold text-xs tracking-wider uppercase py-3 px-4 rounded-xl flex items-center justify-between transition-all duration-300 shadow-xl group/btn mt-2">
+                      <span>View Property Details</span>
+                      <FaChevronRight size={11} className="text-[#111827] group-hover/btn:translate-x-1 transition-transform" />
                     </div>
                   </div>
                 </Link>
               </SwiperSlide>
             ))}
           </Swiper>
+
+          {/* Swiper Custom Navigation Left & Right Arrow Buttons (Shown on md & mobile screens only) */}
+          <div className="flex lg:hidden items-center justify-center gap-3 mt-4">
+            <button
+              onClick={() => swiperRef.current?.slidePrev()}
+              className="w-10 h-10 rounded-full bg-[#111827] text-white hover:bg-[#C89B3C] hover:text-[#111827] flex items-center justify-center transition-all duration-300 shadow-md border border-slate-700 cursor-pointer group hover:scale-105 active:scale-95"
+              aria-label="Previous Property"
+            >
+              <FaChevronLeft className="h-3.5 w-3.5 text-[#C89B3C] group-hover:text-[#111827] group-hover:-translate-x-0.5 transition-all" />
+            </button>
+
+            <button
+              onClick={() => swiperRef.current?.slideNext()}
+              className="w-10 h-10 rounded-full bg-[#111827] text-white hover:bg-[#C89B3C] hover:text-[#111827] flex items-center justify-center transition-all duration-300 shadow-md border border-slate-700 cursor-pointer group hover:scale-105 active:scale-95"
+              aria-label="Next Property"
+            >
+              <FaChevronRight className="h-3.5 w-3.5 text-[#C89B3C] group-hover:text-[#111827] group-hover:translate-x-0.5 transition-all" />
+            </button>
+          </div>
         </div>
       </section>
 
-      {/* Investment Process Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-6">
-          {/* Heading */}
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl md:text-4xl font-semibold text-gray-900 leading-tight">
-              Investment Process with <br />
-              <span className="text-gray-900">Vrindavan Real Estate</span>
+      {/* ------------------------------------------------------------- */}
+      {/* COMBINED: SINGLE LINE STEPPER TRACK + POP-UP OVERVIEW MODAL   */}
+      {/* ------------------------------------------------------------- */}
+      {/* ------------------------------------------------------------- */}
+      {/* COMBINED: SINGLE LINE STEPPER TRACK + POP-UP OVERVIEW MODAL   */}
+      {/* ------------------------------------------------------------- */}
+      <section className="py-20 bg-[#ededed] border-t border-b border-slate-300">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Section Header with Pure Black (#000000) styling */}
+          <div className="text-center mb-16">
+            <span className="px-4 py-1.5 rounded-full bg-[#000000] text-[#C89B3C] font-extrabold text-xs tracking-widest uppercase shadow-md">
+              SMART INVESTMENT STRATEGY
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#000000] mt-3 tracking-tight">
+              Investment Process With Vrindavan Real Estate
             </h2>
-            <div className="h-1 w-24 bg-yellow-600 mx-auto mt-4 rounded-full"></div>
-          </motion.div>
-
-          <Swiper
-            modules={[Autoplay, Pagination]}
-            spaceBetween={30}
-            slidesPerView={1}
-            loop={true}
-            breakpoints={{
-              768: { slidesPerView: 1 },
-              1024: { slidesPerView: 2 },
-            }}
-            autoplay={{ delay: 2500, disableOnInteraction: false }}
-            pagination={{ clickable: true }}
-            className="pb-12"
-          >
-            {investmentSteps.map((item, idx) => (
-              <SwiperSlide key={idx}>
-                <motion.div
-                  initial={{
-                    opacity: 0,
-                    y: 100,
-                  }}
-                  whileInView={{
-                    opacity: 1,
-                    y: 0,
-                  }}
-                  viewport={{ once: true, amount: 0.2 }}
-                  transition={{
-                    duration: 1,
-                    ease: "easeOut",
-                  }}
-                  className=" p-8 transition-all duration-500 group"
-                >
-                  <div className="flex flex-col sm:flex-row gap-6">
-                    <div className="w-24 h-24  rounded-2xl flex items-center justify-center p-3 shrink-0">
-                      <img
-                        src={item.icon}
-                        alt={item.title}
-                        className="w-full h-full object-contain"
-                      />
-                    </div>
-
-                    <div className="flex-1">
-                      <div className="text-sm font-bold text-gray-500 mb-2 uppercase tracking-widest">
-                        Step {item.step}
-                      </div>
-
-                      <h3 className="text-2xl font-bold text-gray-900 mb-4 tracking-tight">
-                        {item.title}
-                      </h3>
-
-                      <p className="text-gray-600 leading-relaxed text-[15px]">
-                        {item.desc}
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </div>
-      </section>
-
-      {/* Funfacts Section */}
-      <section
-        ref={ref}
-        className="relative py-28 overflow-hidden"
-        style={{
-          backgroundImage:
-            "url('https://images.unsplash.com/photo-1505693416388-ac5ce068fe85')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="absolute inset-0 bg-black/85"></div>
-
-        <div className="relative z-10 max-w-7xl mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-20"
-          >
-            <p className="text-white text-lg font-semibold mb-4">
-              Properties No
+            <p className="text-slate-600 text-sm max-w-xl mx-auto mt-2 font-medium">
+              Click on any phase step in the roadmap below to view its full overview modal.
             </p>
+            <div className="h-1 w-20 bg-[#C89B3C] mx-auto mt-4 rounded-full"></div>
+          </div>
 
-            <h2 className="text-white text-5xl md:text-6xl font-bold leading-tight">
-              Funfacts Vrindavan Real
-              <br />
-              Estate
-            </h2>
-          </motion.div>
+          {/* Single Line / Grid Phases Stepper Track (Increased Width max-w-6xl) */}
+          <div className="relative max-w-6xl mx-auto my-16 px-4">
+            {/* Background Connecting Bar */}
+            <div className="absolute top-1/2 left-8 right-8 h-1 bg-slate-300 -translate-y-1/2 z-0 hidden sm:block">
+              <div className="h-full bg-[#C89B3C] rounded-full w-full opacity-80" />
+            </div>
 
-          <div className="grid md:grid-cols-3 gap-10 items-center">
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-center"
-            >
-              <div className="w-24 h-24 mx-auto mb-8 rounded-full bg-white/10 flex items-center justify-center backdrop-blur-sm">
-                <FaBuilding className="w-12 h-12 text-white" />
-              </div>
-
-              <h3 className="text-white text-5xl font-bold mb-4">50 Lac+</h3>
-
-              <p className="text-white text-xl">Completed Property</p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="relative"
-            >
-              <div
-                className="bg-blue-900/70 mx-auto backdrop-blur-sm"
-                style={{
-                  height: "260px",
-                  clipPath: "polygon(15% 0%,85% 0%,100% 100%,0% 100%)",
-                }}
-              >
-                <div className="h-full flex flex-col items-center justify-center">
-                  <div className="w-20 h-20 rounded-full bg-white/10 flex items-center justify-center mb-6">
-                    <FaHome className="w-10 h-10 text-white" />
+            {/* Stepper Node Buttons (Responsive Grid: 2 cols on mobile with gap-y-14, 4 cols on sm) */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-14 sm:gap-6 relative z-10">
+              {investmentSteps.map((step, idx) => (
+                <div
+                  key={idx}
+                  onClick={() => setActiveModalStep(idx)}
+                  className="flex flex-col items-center cursor-pointer group relative"
+                >
+                  {/* Default Always-Jumping Bouncing Hand Indicator */}
+                  <div className="absolute -top-10 flex flex-col items-center animate-bounce z-20 pointer-events-none">
+                    <span className="bg-[#C89B3C] text-[#000000] text-[9px] sm:text-[10px] font-black tracking-wider px-2 py-0.5 rounded-full shadow-md whitespace-nowrap border border-[#000000]/20">
+                      Click Overview 👆
+                    </span>
+                    <div className="w-1.5 h-1.5 bg-[#C89B3C] rotate-45 -mt-0.5" />
                   </div>
 
-                  <h3 className="text-white text-5xl font-bold">7600+</h3>
+                  {/* Icon Node Circle with #000000 styling */}
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white border-2 border-slate-300 group-hover:border-[#C89B3C] group-hover:bg-[#000000] shadow-lg flex items-center justify-center p-3 transition-all duration-300 group-hover:scale-110">
+                    <img src={step.icon} alt={step.title} className="w-full h-full object-contain" />
+                  </div>
 
-                  <p className="text-white text-xl mt-3">Property Sales</p>
+                  {/* Step Pill Tag with #000000 background */}
+                  <div className="mt-2.5 px-3 py-1 rounded-full bg-[#000000] text-[#C89B3C] group-hover:bg-[#C89B3C] group-hover:text-[#000000] font-extrabold text-[11px] sm:text-xs tracking-wider transition-colors duration-300 shadow-md">
+                    PHASE 0{idx + 1}
+                  </div>
+
+                  {/* Step Title */}
+                  <span className="mt-1 text-xs sm:text-sm font-extrabold text-[#000000] group-hover:text-[#C89B3C] transition-colors text-center truncate max-w-full">
+                    {step.title}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Quick Click Prompt Bar */}
+          <div className="text-center mt-10">
+            <span className="inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-2xl bg-white border border-slate-300 text-[#000000] font-extrabold text-[11px] sm:text-xs shadow-md max-w-full">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#C89B3C] animate-ping shrink-0" />
+              <span>Click any phase node above to open the full overview modal</span>
+            </span>
+          </div>
+        </div>
+      </section>
+
+      {/* POP-UP MODAL CARD OVERVIEW WINDOW */}
+      <AnimatePresence>
+        {activeModalStep !== null && (
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 sm:p-6">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              transition={{ duration: 0.3 }}
+              className="bg-[#000000] text-white border-2 border-[#C89B3C] rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative overflow-hidden"
+            >
+              {/* Top Gold Accent Line */}
+              <div className="absolute top-0 inset-x-0 h-1 bg-[#C89B3C]" />
+
+              {/* Close Button */}
+              <button
+                onClick={() => setActiveModalStep(null)}
+                className="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/10 text-white hover:bg-[#C89B3C] hover:text-[#000000] flex items-center justify-center transition-all cursor-pointer shadow-md z-10"
+                aria-label="Close Overview Modal"
+              >
+                <FaTimes size={16} />
+              </button>
+
+              {/* Modal Header */}
+              <div className="flex items-center gap-4 mb-6 pb-6 border-b border-white/15">
+                <div className="w-16 h-16 rounded-2xl bg-white p-3 flex items-center justify-center shadow-lg shrink-0">
+                  <img
+                    src={investmentSteps[activeModalStep].icon}
+                    alt={investmentSteps[activeModalStep].title}
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+                <div>
+                  <span className="px-3 py-1 rounded-full bg-[#C89B3C] text-[#000000] font-black text-[10px] tracking-widest uppercase shadow-sm">
+                    PHASE 0{activeModalStep + 1} OVERVIEW
+                  </span>
+                  <h3 className="text-2xl sm:text-3xl font-extrabold text-white mt-1">
+                    {investmentSteps[activeModalStep].title}
+                  </h3>
                 </div>
               </div>
-            </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="text-center"
-            >
-              <div className="w-24 h-24 mx-auto mb-8 rounded-full bg-white/10 flex items-center justify-center backdrop-blur-sm">
-                <FaRegComments className="w-12 h-12 text-white" />
+              {/* Modal Body */}
+              <div className="space-y-4 mb-6">
+                <p className="text-slate-300 text-sm sm:text-base leading-relaxed font-medium">
+                  {investmentSteps[activeModalStep].desc}
+                </p>
+
+                {/* Key Takeaways Checklist */}
+                <div className="grid sm:grid-cols-2 gap-3 pt-4 border-t border-white/10">
+                  <div className="flex items-center gap-2 bg-white/5 px-3.5 py-2.5 rounded-xl border border-white/10 text-xs font-bold text-slate-200">
+                    <FaCheckCircle className="text-[#C89B3C] shrink-0 h-4 w-4" />
+                    <span>Comprehensive Due Diligence</span>
+                  </div>
+                  <div className="flex items-center gap-2 bg-white/5 px-3.5 py-2.5 rounded-xl border border-white/10 text-xs font-bold text-slate-200">
+                    <FaCheckCircle className="text-[#C89B3C] shrink-0 h-4 w-4" />
+                    <span>Transparent Partnership Terms</span>
+                  </div>
+                </div>
               </div>
 
-              <h3 className="text-white text-5xl font-bold mb-4">6500+</h3>
+              {/* Modal Footer Controls with #000000 styling */}
+              <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-white/15">
+                <div className="flex items-center gap-2">
+                  <button
+                    disabled={activeModalStep === 0}
+                    onClick={() => setActiveModalStep((prev) => Math.max(0, prev - 1))}
+                    className="w-9 h-9 rounded-full bg-white/10 text-white disabled:opacity-30 hover:bg-[#C89B3C] hover:text-[#000000] flex items-center justify-center transition-all cursor-pointer"
+                  >
+                    <FaChevronLeft size={12} />
+                  </button>
+                  <span className="text-xs font-bold text-slate-400">
+                    {activeModalStep + 1} / 4
+                  </span>
+                  <button
+                    disabled={activeModalStep === investmentSteps.length - 1}
+                    onClick={() => setActiveModalStep((prev) => Math.min(investmentSteps.length - 1, prev + 1))}
+                    className="w-9 h-9 rounded-full bg-white/10 text-white disabled:opacity-30 hover:bg-[#C89B3C] hover:text-[#000000] flex items-center justify-center transition-all cursor-pointer"
+                  >
+                    <FaChevronRight size={12} />
+                  </button>
+                </div>
 
-              <p className="text-white text-xl">Satisfied Clients</p>
+                <Link
+                  to="/contact"
+                  onClick={() => setActiveModalStep(null)}
+                  className="px-5 py-2.5 rounded-xl bg-[#C89B3C] hover:bg-white text-[#000000] font-extrabold text-xs tracking-wider uppercase transition-all shadow-md flex items-center gap-2"
+                >
+                  <span>Schedule Consultation</span>
+                  <FaChevronRight size={10} />
+                </Link>
+              </div>
             </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Properties Growth / Company Statistics Section (Combined Mind-Blowing Luxury Layout) */}
+      <section
+        ref={ref}
+        className="py-24 bg-[#0B0F17] text-white relative overflow-hidden border-t border-[#C89B3C]/20 shadow-2xl"
+      >
+        {/* Ambient Light Glow Spheres */}
+        <div className="absolute top-1/2 -left-20 -translate-y-1/2 w-96 h-96 bg-[#C89B3C]/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#C89B3C]/5 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid lg:grid-cols-12 gap-12 items-center">
+            
+            {/* Left Column (5 Cols): Narrative & Headline */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              className="lg:col-span-5 text-center lg:text-left"
+            >
+              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 text-[#C89B3C] font-extrabold text-xs tracking-widest uppercase border border-[#C89B3C]/30 shadow-md">
+                <span className="w-2 h-2 rounded-full bg-[#C89B3C] animate-ping" />
+                PROPERTIES GROWTH
+              </span>
+
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white mt-5 tracking-tight leading-tight">
+                Funfacts <br />
+                <span className="text-[#C89B3C] drop-shadow-[0_2px_10px_rgba(200,155,60,0.3)]">
+                  Vrindavan Real Estate
+                </span>
+              </h2>
+
+              <p className="text-slate-400 text-sm sm:text-base mt-4 font-medium leading-relaxed max-w-lg mx-auto lg:mx-0">
+                Over a decade of uncompromised excellence, building trust, and delivering high-appreciation residential & commercial plots across Jaipur.
+              </p>
+
+              {/* Trust Badges */}
+              <div className="mt-8 flex flex-wrap gap-3 justify-center lg:justify-start">
+                <span className="px-3.5 py-1.5 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-slate-300 flex items-center gap-2">
+                  <FaCheckCircle className="text-[#C89B3C]" /> 100% Legal Clear Title
+                </span>
+                <span className="px-3.5 py-1.5 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-slate-300 flex items-center gap-2">
+                  <FaCheckCircle className="text-[#C89B3C]" /> Prime Jaipur Locations
+                </span>
+              </div>
+            </motion.div>
+
+            {/* Right Column (7 Cols): 3 Interactive Progress Glass Rows with Circular Dial Icons */}
+            <div className="lg:col-span-7 space-y-5">
+              
+              {/* Stat Row 1: Completed Property */}
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="bg-gradient-to-r from-white/5 via-white/[0.07] to-transparent backdrop-blur-xl border border-white/10 hover:border-[#C89B3C]/50 rounded-3xl p-6 shadow-xl transition-all duration-300 group relative overflow-hidden"
+              >
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-5">
+                  {/* Left: Circular Dial & Label */}
+                  <div className="flex items-center gap-4 text-center sm:text-left">
+                    <div className="relative w-14 h-14 shrink-0 flex items-center justify-center">
+                      <div className="absolute inset-0 rounded-full bg-[#C89B3C]/20 blur-md group-hover:bg-[#C89B3C]/40 transition-all" />
+                      <div className="w-14 h-14 rounded-full bg-[#000000] text-[#C89B3C] group-hover:bg-[#C89B3C] group-hover:text-[#000000] flex items-center justify-center shadow-lg transition-all border border-[#C89B3C]/40 z-10">
+                        <FaBuilding className="w-6 h-6" />
+                      </div>
+                    </div>
+                    <div>
+                      <h4 className="text-white text-base font-extrabold tracking-wide group-hover:text-[#C89B3C] transition-colors">
+                        Completed Property
+                      </h4>
+                      <p className="text-slate-400 text-xs font-medium">Delivered prime developments</p>
+                    </div>
+                  </div>
+
+                  {/* Right: Animated Counter */}
+                  <div className="text-right shrink-0">
+                    <span className="text-3xl sm:text-4xl font-black text-white group-hover:text-[#C89B3C] transition-colors tracking-tight">
+                      <AnimatedCounter target={50} suffix=" Lac+" inView={inView} />
+                    </span>
+                  </div>
+                </div>
+
+                {/* Bottom Gold Meter Bar */}
+                <div className="mt-4 w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
+                  <motion.div
+                    initial={{ width: "0%" }}
+                    whileInView={{ width: "85%" }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1.5, ease: "easeOut" }}
+                    className="h-full bg-gradient-to-r from-[#C89B3C]/40 to-[#C89B3C] rounded-full"
+                  />
+                </div>
+              </motion.div>
+
+              {/* Stat Row 2: Property Sales (Highlighted Gold Ambient Row) */}
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="bg-gradient-to-r from-[#000000] via-[#161c28] to-[#000000] backdrop-blur-2xl border-2 border-[#C89B3C] rounded-3xl p-6 shadow-2xl transition-all duration-300 group relative overflow-hidden scale-[1.02]"
+              >
+                {/* Glowing Top Gold Accent */}
+                <div className="absolute top-0 inset-x-0 h-1 bg-[#C89B3C] shadow-[0_0_15px_#C89B3C]" />
+
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-5 relative z-10">
+                  {/* Left: Circular Gold Dial & Label */}
+                  <div className="flex items-center gap-4 text-center sm:text-left">
+                    <div className="relative w-14 h-14 shrink-0 flex items-center justify-center">
+                      <div className="absolute inset-0 rounded-full bg-[#C89B3C]/30 blur-md animate-pulse" />
+                      <div className="w-14 h-14 rounded-full bg-[#C89B3C] text-[#000000] flex items-center justify-center shadow-xl transition-all border border-white/30 z-10">
+                        <FaHome className="w-6 h-6" />
+                      </div>
+                    </div>
+                    <div>
+                      <h4 className="text-white text-base font-extrabold tracking-wide">
+                        Property Sales
+                      </h4>
+                      <p className="text-[#C89B3C] text-xs font-bold uppercase tracking-wider">Top Featured Metric</p>
+                    </div>
+                  </div>
+
+                  {/* Right: Animated Counter */}
+                  <div className="text-right shrink-0">
+                    <span className="text-3xl sm:text-5xl font-black text-white tracking-tight drop-shadow-[0_2px_10px_rgba(200,155,60,0.4)]">
+                      <AnimatedCounter target={7600} suffix=" +" inView={inView} />
+                    </span>
+                  </div>
+                </div>
+
+                {/* Bottom Full Gold Progress Meter */}
+                <div className="mt-4 w-full h-2 bg-white/10 rounded-full overflow-hidden">
+                  <motion.div
+                    initial={{ width: "0%" }}
+                    whileInView={{ width: "95%" }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1.5, ease: "easeOut" }}
+                    className="h-full bg-gradient-to-r from-[#C89B3C] to-amber-300 rounded-full shadow-[0_0_10px_#C89B3C]"
+                  />
+                </div>
+              </motion.div>
+
+              {/* Stat Row 3: Satisfied Clients */}
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                className="bg-gradient-to-r from-white/5 via-white/[0.07] to-transparent backdrop-blur-xl border border-white/10 hover:border-[#C89B3C]/50 rounded-3xl p-6 shadow-xl transition-all duration-300 group relative overflow-hidden"
+              >
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-5">
+                  {/* Left: Circular Dial & Label */}
+                  <div className="flex items-center gap-4 text-center sm:text-left">
+                    <div className="relative w-14 h-14 shrink-0 flex items-center justify-center">
+                      <div className="absolute inset-0 rounded-full bg-[#C89B3C]/20 blur-md group-hover:bg-[#C89B3C]/40 transition-all" />
+                      <div className="w-14 h-14 rounded-full bg-[#000000] text-[#C89B3C] group-hover:bg-[#C89B3C] group-hover:text-[#000000] flex items-center justify-center shadow-lg transition-all border border-[#C89B3C]/40 z-10">
+                        <FaRegComments className="w-6 h-6" />
+                      </div>
+                    </div>
+                    <div>
+                      <h4 className="text-white text-base font-extrabold tracking-wide group-hover:text-[#C89B3C] transition-colors">
+                        Satisfied Clients
+                      </h4>
+                      <p className="text-slate-400 text-xs font-medium">Happy plot buyers & investors</p>
+                    </div>
+                  </div>
+
+                  {/* Right: Animated Counter */}
+                  <div className="text-right shrink-0">
+                    <span className="text-3xl sm:text-4xl font-black text-white group-hover:text-[#C89B3C] transition-colors tracking-tight">
+                      <AnimatedCounter target={6500} suffix=" +" inView={inView} />
+                    </span>
+                  </div>
+                </div>
+
+                {/* Bottom Gold Meter Bar */}
+                <div className="mt-4 w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
+                  <motion.div
+                    initial={{ width: "0%" }}
+                    whileInView={{ width: "90%" }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1.5, ease: "easeOut" }}
+                    className="h-full bg-gradient-to-r from-[#C89B3C]/40 to-[#C89B3C] rounded-full"
+                  />
+                </div>
+              </motion.div>
+
+            </div>
+
           </div>
         </div>
       </section>
 
-      {/* Reviews Section - Pure White */}
-      <section className="py-24 bg-[#f5f1f1] overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold">
-              What Our <span className="text-blue-600">Clients</span> Say
+      {/* Reviews / Client Testimonials Section */}
+      <section className="py-24 bg-[#ededed] border-t border-slate-300 shadow-md relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          {/* Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="text-center mb-16"
+          >
+            <span className="px-4 py-1.5 rounded-full bg-[#000000] text-[#C89B3C] font-extrabold text-xs tracking-widest uppercase shadow-md">
+              CLIENT TESTIMONIALS
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#000000] mt-3 tracking-tight">
+              What Our <span className="text-[#C89B3C]">Clients</span> Say
             </h2>
+            <p className="text-slate-600 text-sm max-w-xl mx-auto mt-2 font-medium">
+              Read real feedback from home buyers and investors who trusted Vrindavan Real Estate.
+            </p>
+            <div className="h-1 w-20 bg-[#C89B3C] mx-auto mt-4 rounded-full" />
+          </motion.div>
+
+          {/* Desktop View: 3 Horizontal Cards Side by Side */}
+          <div className="hidden lg:grid grid-cols-3 gap-8 pt-8">
+            {testimonials.map((item, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.15 }}
+                className="bg-white border-2 border-slate-200/90 rounded-3xl p-8 pt-0 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 flex flex-col items-center justify-between text-center relative group"
+              >
+                {/* Top Border Gold Accent Line */}
+                <div className="absolute top-0 inset-x-8 h-1 bg-[#C89B3C] rounded-full group-hover:inset-x-0 transition-all duration-300" />
+
+                {/* Avatar Image Positioned Center Top Border */}
+                <div className="relative -mt-10 mb-4 z-10">
+                  <img
+                    src={item.img}
+                    alt={item.name}
+                    className="w-20 h-20 rounded-full object-cover border-4 border-[#000000] shadow-xl group-hover:scale-105 group-hover:border-[#C89B3C] transition-all duration-300"
+                  />
+                  <div className="absolute bottom-0 right-0 w-6 h-6 rounded-full bg-[#C89B3C] text-[#000000] text-[10px] font-black flex items-center justify-center border border-white">
+                    ✓
+                  </div>
+                </div>
+
+                {/* 5 Stars Rating */}
+                <div className="text-[#C89B3C] text-lg tracking-widest mb-3">
+                  ★★★★★
+                </div>
+
+                {/* Quote */}
+                <p className="text-slate-600 text-sm leading-relaxed italic mb-6 flex-grow font-medium">
+                  "{item.quote}"
+                </p>
+
+                {/* Client Info */}
+                <div className="pt-4 border-t border-slate-100 w-full">
+                  <h3 className="text-lg font-black text-[#000000] group-hover:text-[#C89B3C] transition-colors">
+                    {item.name}
+                  </h3>
+                  <p className="text-[#C89B3C] font-extrabold text-xs uppercase tracking-wider mt-0.5">
+                    {item.role}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
           </div>
 
-          <div className="flex justify-center">
+          {/* Medium & Mobile View: Single Active Card with Bottom Arrow Controls */}
+          <div className="block lg:hidden pt-8">
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentReview}
-                initial={{ x: 300, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                exit={{ x: -300, opacity: 0 }}
-                transition={{ duration: 0.7 }}
-                className="bg-white rounded-[30px] shadow-lg p-10 max-w-5xl w-auto"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.3 }}
+                className="bg-white border-2 border-slate-200/90 rounded-3xl p-8 pt-0 shadow-xl flex flex-col items-center justify-between text-center relative max-w-md mx-auto"
               >
-                <div className="grid md:grid-cols-2 gap-10 items-center">
-                  {/* Left */}
+                {/* Top Border Gold Accent Line */}
+                <div className="absolute top-0 inset-x-8 h-1 bg-[#C89B3C] rounded-full" />
 
-                  <div className="text-center">
-                    <img
-                      src={testimonials[currentReview].img}
-                      alt=""
-                      className="w-30 h-30 rounded-2xl object-cover mx-auto mb-6"
-                    />
-
-                    <h3 className="text-2xl font-bold mb-2">
-                      {testimonials[currentReview].name}
-                    </h3>
-
-                    <p className="text-gray-600 text-lg leading-relaxed">
-                      "{testimonials[currentReview].quote}"
-                    </p>
+                {/* Avatar Image Positioned Center Top Border */}
+                <div className="relative -mt-10 mb-4 z-10">
+                  <img
+                    src={testimonials[currentReview].img}
+                    alt={testimonials[currentReview].name}
+                    className="w-20 h-20 rounded-full object-cover border-4 border-[#000000] shadow-xl"
+                  />
+                  <div className="absolute bottom-0 right-0 w-6 h-6 rounded-full bg-[#C89B3C] text-[#000000] text-[10px] font-black flex items-center justify-center border border-white">
+                    ✓
                   </div>
+                </div>
 
-                  {/* Right */}
+                {/* 5 Stars Rating */}
+                <div className="text-[#C89B3C] text-lg tracking-widest mb-3">
+                  ★★★★★
+                </div>
 
-                  <div className="flex flex-col items-center justify-center">
-                    <h3 className="text-3xl font-bold mb-10">
-                      Satisfied Client
-                    </h3>
+                {/* Quote */}
+                <p className="text-slate-600 text-sm leading-relaxed italic mb-6 font-medium">
+                  "{testimonials[currentReview].quote}"
+                </p>
 
-                    <div className="text-yellow-500 text-5xl">★★★★★</div>
-                  </div>
+                {/* Client Info */}
+                <div className="pt-4 border-t border-slate-100 w-full">
+                  <h3 className="text-lg font-black text-[#000000]">
+                    {testimonials[currentReview].name}
+                  </h3>
+                  <p className="text-[#C89B3C] font-extrabold text-xs uppercase tracking-wider mt-0.5">
+                    {testimonials[currentReview].role}
+                  </p>
                 </div>
               </motion.div>
             </AnimatePresence>
+
+            {/* Bottom Arrow Buttons for Mobile & Medium screens */}
+            <div className="flex items-center justify-center gap-4 mt-8">
+              <button
+                onClick={() =>
+                  setCurrentReview(
+                    (prev) => (prev - 1 + testimonials.length) % testimonials.length
+                  )
+                }
+                className="w-12 h-12 rounded-full bg-[#000000] text-white hover:bg-[#C89B3C] hover:text-[#000000] flex items-center justify-center transition-all cursor-pointer shadow-lg active:scale-95"
+                aria-label="Previous Review"
+              >
+                <FaChevronLeft size={16} />
+              </button>
+
+              <div className="flex gap-1.5">
+                {testimonials.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setCurrentReview(idx)}
+                    className={`h-2.5 rounded-full transition-all cursor-pointer ${
+                      currentReview === idx ? "w-7 bg-[#C89B3C]" : "w-2.5 bg-slate-300"
+                    }`}
+                  />
+                ))}
+              </div>
+
+              <button
+                onClick={() =>
+                  setCurrentReview((prev) => (prev + 1) % testimonials.length)
+                }
+                className="w-12 h-12 rounded-full bg-[#000000] text-white hover:bg-[#C89B3C] hover:text-[#000000] flex items-center justify-center transition-all cursor-pointer shadow-lg active:scale-95"
+                aria-label="Next Review"
+              >
+                <FaChevronRight size={16} />
+              </button>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Top Areas Section */}
-      <section className="py-10 bg-[#f7f7f7] overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6">
-          {/* Heading */}
-
+      {/* Prime Locations / Explore Properties Section */}
+      <section className="py-24 bg-[#ededed] border-t border-slate-300 shadow-md relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          {/* Section Header */}
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
+            initial={{ opacity: 0, y: 25 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.7 }}
             className="text-center mb-16"
           >
-            <p className="text-blue-600 font-semibold text-lg mb-3">
-              Top Areas
-            </p>
-
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
-              Explore Properties
+            <span className="px-4 py-1.5 rounded-full bg-[#000000] text-[#C89B3C] font-extrabold text-xs tracking-widest uppercase shadow-md">
+              PRIME LOCATIONS
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#000000] mt-3 tracking-tight">
+              Explore Prime Properties in <br />
+              <span className="text-[#C89B3C]">Jaipur & Vrindavan</span>
             </h2>
+            <p className="text-slate-600 text-sm max-w-xl mx-auto mt-2 font-medium">
+              Discover strategic residential and commercial plot developments in the highest-growth corridors.
+            </p>
+            <div className="h-1 w-20 bg-[#C89B3C] mx-auto mt-4 rounded-full" />
           </motion.div>
 
-          <div className="grid lg:grid-cols-3 gap-7">
-            {/* Left Side */}
-
-            <div className="lg:col-span-2">
-              {/* Top Row */}
-
-              <div className="grid md:grid-cols-2 gap-7 mb-7">
-                {/* Left Image */}
-
+          {/* Location Cards Grid */}
+          <div className="grid lg:grid-cols-3 gap-6">
+            {/* Left Side 2-Column Grid */}
+            <div className="lg:col-span-2 flex flex-col gap-6">
+              {/* Top Row: 2 Cards */}
+              <div className="grid sm:grid-cols-2 gap-6">
+                {/* Card 1: Vasundhara Nagar-II */}
                 <motion.div
-                  initial={{ opacity: 0, x: -120 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.9 }}
-                  className="group relative overflow-hidden rounded-xl h-67.5 cursor-pointer"
+                  transition={{ duration: 0.6 }}
+                  className="group relative overflow-hidden rounded-3xl h-72 border-2 border-slate-200 hover:border-[#C89B3C] shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer"
                 >
                   <img
                     src={top1}
-                    alt=""
-                    className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
+                    alt="Vasundhara Nagar-II"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
+                  {/* Top Badge */}
+                  <div className="absolute top-4 left-4 z-10">
+                    <span className="bg-[#000000]/80 backdrop-blur-md text-[#C89B3C] text-[10px] font-black tracking-widest uppercase px-3 py-1 rounded-full border border-[#C89B3C]/30 shadow-md">
+                      📍 JAIPUR | 12 PLOTS
+                    </span>
+                  </div>
+
+                  {/* Gradient Overlay & Content */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent flex flex-col justify-end p-6 transition-all duration-300">
+                    <div className="flex items-end justify-between gap-4">
+                      <div>
+                        <h3 className="text-xl font-extrabold text-white group-hover:text-[#C89B3C] transition-colors">
+                          Vasundhara Nagar-II
+                        </h3>
+                        <p className="text-slate-300 text-xs font-medium mt-1">
+                          Prime Connectivity & Modern Infrastructure
+                        </p>
+                      </div>
+                      <Link
+                        to="/properties"
+                        className="w-10 h-10 rounded-full bg-[#C89B3C] text-[#000000] group-hover:bg-white flex items-center justify-center transition-all shrink-0 shadow-lg group-hover:scale-110"
+                      >
+                        <FaChevronRight size={12} />
+                      </Link>
+                    </div>
+                  </div>
                 </motion.div>
 
-                {/* Right Image */}
-
+                {/* Card 2: Sridhar Nagar */}
                 <motion.div
-                  initial={{ opacity: 0, x: 120 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.9, delay: 0.2 }}
-                  className="group relative overflow-hidden rounded-xl h-67.5 cursor-pointer"
+                  transition={{ duration: 0.6, delay: 0.1 }}
+                  className="group relative overflow-hidden rounded-3xl h-72 border-2 border-slate-200 hover:border-[#C89B3C] shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer"
                 >
                   <img
                     src={top2}
-                    alt=""
-                    className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
+                    alt="Sridhar Nagar"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
+                  {/* Top Badge */}
+                  <div className="absolute top-4 left-4 z-10">
+                    <span className="bg-[#000000]/80 backdrop-blur-md text-[#C89B3C] text-[10px] font-black tracking-widest uppercase px-3 py-1 rounded-full border border-[#C89B3C]/30 shadow-md">
+                      📍 JAIPUR | 8 PLOTS
+                    </span>
+                  </div>
+
+                  {/* Gradient Overlay & Content */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent flex flex-col justify-end p-6 transition-all duration-300">
+                    <div className="flex items-end justify-between gap-4">
+                      <div>
+                        <h3 className="text-xl font-extrabold text-white group-hover:text-[#C89B3C] transition-colors">
+                          Sridhar Nagar
+                        </h3>
+                        <p className="text-slate-300 text-xs font-medium mt-1">
+                          Strategic Commercial Belt & Gated Sector
+                        </p>
+                      </div>
+                      <Link
+                        to="/properties"
+                        className="w-10 h-10 rounded-full bg-[#C89B3C] text-[#000000] group-hover:bg-white flex items-center justify-center transition-all shrink-0 shadow-lg group-hover:scale-110"
+                      >
+                        <FaChevronRight size={12} />
+                      </Link>
+                    </div>
+                  </div>
                 </motion.div>
               </div>
 
-              {/* Bottom Image */}
-
+              {/* Bottom Wide Card: Ajmer Road Expressway */}
               <motion.div
-                initial={{ opacity: 0, y: 120 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.9, delay: 0.4 }}
-                className="group relative overflow-hidden rounded-xl h-80 cursor-pointer"
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="group relative overflow-hidden rounded-3xl h-72 border-2 border-slate-200 hover:border-[#C89B3C] shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer"
               >
                 <img
                   src={top4}
-                  alt=""
-                  className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
+                  alt="Ajmer Road Expressway"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
+                {/* Top Badge */}
+                <div className="absolute top-4 left-4 z-10">
+                  <span className="bg-[#000000]/80 backdrop-blur-md text-[#C89B3C] text-[10px] font-black tracking-widest uppercase px-3 py-1 rounded-full border border-[#C89B3C]/30 shadow-md">
+                    📍 HIGHWAY CORRIDOR | 15 PLOTS
+                  </span>
+                </div>
+
+                {/* Gradient Overlay & Content */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent flex flex-col justify-end p-6 transition-all duration-300">
+                  <div className="flex items-end justify-between gap-4">
+                    <div>
+                      <h3 className="text-2xl font-extrabold text-white group-hover:text-[#C89B3C] transition-colors">
+                        Ajmer Road Expressway Belt
+                      </h3>
+                      <p className="text-slate-300 text-xs font-medium mt-1">
+                        Rapid appreciation commercial & mega township sector
+                      </p>
+                    </div>
+                    <Link
+                      to="/properties"
+                      className="w-10 h-10 rounded-full bg-[#C89B3C] text-[#000000] group-hover:bg-white flex items-center justify-center transition-all shrink-0 shadow-lg group-hover:scale-110"
+                    >
+                      <FaChevronRight size={12} />
+                    </Link>
+                  </div>
+                </div>
               </motion.div>
             </div>
 
-            {/* Right Side Vertical */}
-
+            {/* Right Side Vertical Tall Card: Urmila Enclave */}
             <motion.div
-              initial={{ opacity: 0, y: -120 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.9, delay: 0.6 }}
-              className="group relative overflow-hidden rounded-xl h-154.25 cursor-pointer"
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="group relative overflow-hidden rounded-3xl h-full min-h-[350px] border-2 border-slate-200 hover:border-[#C89B3C] shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer"
             >
               <img
                 src={top3}
-                alt=""
-                className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
+                alt="Urmila Enclave"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               />
+              {/* Top Badge */}
+              <div className="absolute top-4 left-4 z-10">
+                <span className="bg-[#000000]/80 backdrop-blur-md text-[#C89B3C] text-[10px] font-black tracking-widest uppercase px-3 py-1 rounded-full border border-[#C89B3C]/30 shadow-md">
+                  📍 JAIPUR | 5 PLOTS
+                </span>
+              </div>
+
+              {/* Gradient Overlay & Content */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent flex flex-col justify-end p-8 transition-all duration-300">
+                <div className="flex items-end justify-between gap-4">
+                  <div>
+                    <h3 className="text-2xl font-extrabold text-white group-hover:text-[#C89B3C] transition-colors">
+                      Urmila Enclave
+                    </h3>
+                    <p className="text-slate-300 text-xs font-medium mt-1">
+                      Peaceful Eco-Friendly Residential Haven
+                    </p>
+                  </div>
+                  <Link
+                    to="/properties"
+                    className="w-12 h-12 rounded-full bg-[#C89B3C] text-[#000000] group-hover:bg-white flex items-center justify-center transition-all shrink-0 shadow-lg group-hover:scale-110"
+                  >
+                    <FaChevronRight size={14} />
+                  </Link>
+                </div>
+              </div>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Review our clients */}
-      <section
-        className="py-24 relative overflow-hidden bg-cover bg-center"
-        style={{
-          backgroundImage: `url(${reviewBg})`,
-        }}
-      >
-        <div className="absolute inset-0 bg-white/70"></div>
-
-        <div className="relative z-10 max-w-7xl mx-auto px-6">
-          <div className="flex justify-center">
-            <div className="w-full max-w-6xl bg-[#072f4a] rounded-sm shadow-2xl p-10 md:p-16">
-              <div className="grid lg:grid-cols-[280px_1fr] gap-12">
-                {/* Left Side */}
-
-                <div>
-                  <p className="text-white text-lg font-semibold mb-8">
-                    Testimonial
-                  </p>
-
-                  <h2 className="text-white text-4xl md:text-5xl font-bold leading-tight">
-                    Review Our
-                    <br />
-                    Clients
-                  </h2>
-                </div>
-
-                {/* Right Side */}
-
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={clientReview}
-                    initial={{
-                      opacity: 0,
-                      x: direction > 0 ? 120 : -120,
-                    }}
-                    animate={{
-                      opacity: 1,
-                      x: 0,
-                    }}
-                    exit={{
-                      opacity: 0,
-                      x: direction > 0 ? -120 : 120,
-                    }}
-                    transition={{
-                      duration: 0.5,
-                      ease: "easeInOut",
-                    }}
-                  >
-                    {/* Top Info */}
-
-                    <div className="flex flex-col md:flex-row items-start gap-6 mb-8">
-                      <div className="w-27.5 h-32.5 overflow-hidden rounded-xl shrink-0 border-2 border-white/10">
-                        <img
-                          src={testimonials[clientReview].img}
-                          alt={testimonials[clientReview].name}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-
-                      <div>
-                        <div className="text-yellow-400 text-xl mb-2">
-                          ★★★★★
-                        </div>
-
-                        <p className="text-white/70 uppercase tracking-widest text-sm mb-2">
-                          Verified Client
-                        </p>
-
-                        <h3 className="text-white text-3xl font-bold">
-                          {testimonials[clientReview].name}
-                        </h3>
-                      </div>
-                    </div>
-
-                    {/* Review */}
-
-                    <p className="text-white/90 text-lg md:text-xl leading-9 max-w-4xl mt-8">
-                      "{testimonials[clientReview].quote}"
-                    </p>
-
-                    {/* Buttons */}
-
-                    <div className="flex justify-end gap-3 mt-10">
-                      <button
-                        onClick={prevReview}
-                        className="bg-black/40 hover:bg-black px-6 py-3 rounded-lg text-white transition-all"
-                      >
-                        ← Prev
-                      </button>
-
-                      <button
-                        onClick={nextReview}
-                        className="bg-white text-[#072f4a] hover:bg-gray-200 px-6 py-3 rounded-lg font-semibold transition-all"
-                      >
-                        Next →
-                      </button>
-                    </div>
-                  </motion.div>
-                </AnimatePresence>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Stories Section - Soft Stone Bg */}
-      <section className="py-24 bg-[#f8f8f8] overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6">
-          {/* Heading */}
-
+      {/* Stories / Latest News & Blog Section */}
+      <section className="py-24 bg-[#ededed] border-t border-slate-300 shadow-md relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          {/* Header */}
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
+            initial={{ opacity: 0, y: 25 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.7 }}
             className="text-center mb-16"
           >
-            <p className="text-blue-600 font-semibold text-lg mb-3">
-              Our Latest Blog
-            </p>
+            <span className="px-4 py-1.5 rounded-full bg-[#000000] text-[#C89B3C] font-extrabold text-xs tracking-widest uppercase shadow-md">
+              OUR LATEST BLOG
+            </span>
 
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
-              Latest News & Stories
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#000000] mt-3 tracking-tight">
+              Latest News & <span className="text-[#C89B3C]">Stories</span>
             </h2>
+            <p className="text-slate-600 text-sm max-w-xl mx-auto mt-2 font-medium">
+              Stay informed with real estate insights, plot buying tips, and investment market trends in Jaipur.
+            </p>
+            <div className="h-1 w-20 bg-[#C89B3C] mx-auto mt-4 rounded-full" />
           </motion.div>
 
-          {/* Cards */}
-
+          {/* Luxury Blog Cards Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {blogs.map((blog, idx) => (
               <motion.div
                 key={idx}
-                initial={{
-                  opacity: 0,
-                  y: 100,
-                }}
-                whileInView={{
-                  opacity: 1,
-                  y: 0,
-                }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{
-                  duration: 0.8,
-                  delay: idx * 0.15,
-                }}
-                className="bg-white shadow-lg overflow-hidden group hover:shadow-2xl transition-all duration-500"
+                transition={{ duration: 0.6, delay: idx * 0.1 }}
+                className="bg-white rounded-3xl border-2 border-slate-200 hover:border-[#C89B3C] shadow-lg hover:shadow-2xl overflow-hidden group flex flex-col justify-between transition-all duration-500"
               >
-                <Link to="/blog-details" className="block">
-                  {/* Image */}
-                  <div className="overflow-hidden h-70">
+                <Link to="/blog-details" className="block flex-grow">
+                  {/* Image Container with Floating Date Tag */}
+                  <div className="overflow-hidden h-60 relative bg-slate-900">
                     <img
                       src={blog.img}
                       alt={blog.title}
-                      className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
+                    <div className="absolute top-4 left-4 z-10">
+                      <span className="bg-[#000000]/80 backdrop-blur-md text-[#C89B3C] text-[10px] font-black tracking-widest uppercase px-3 py-1 rounded-full border border-[#C89B3C]/30 shadow-md flex items-center gap-1.5">
+                        <FaCalendarAlt size={10} />
+                        {blog.date}
+                      </span>
+                    </div>
                   </div>
 
-                  {/* Content */}
+                  {/* Body Content */}
                   <div className="p-7">
-                    <div className="flex items-center gap-2 text-blue-600 font-semibold text-sm mb-4">
-                      <FaCalendarAlt />
-                      {blog.date}
-                    </div>
-
-                    <h3 className="text-2xl font-bold text-gray-900 leading-snug mb-5 group-hover:text-blue-600 transition-all">
+                    <h3 className="text-xl font-extrabold text-[#000000] leading-snug mb-3 group-hover:text-[#C89B3C] transition-colors">
                       {blog.title}
                     </h3>
 
-                    <p className="text-gray-600 leading-8 mb-6">{blog.desc}</p>
+                    <p className="text-slate-600 text-sm leading-relaxed font-medium">
+                      {blog.desc}
+                    </p>
                   </div>
                 </Link>
+
+                {/* Card Footer Link */}
+                <div className="px-7 pb-7 pt-2 border-t border-slate-100 flex items-center justify-between">
+                  <span className="text-[#000000] font-black text-xs uppercase tracking-wider group-hover:text-[#C89B3C] transition-colors">
+                    Read Article
+                  </span>
+                  <div className="w-8 h-8 rounded-full bg-[#000000] text-[#C89B3C] group-hover:bg-[#C89B3C] group-hover:text-[#000000] flex items-center justify-center transition-all duration-300 shadow-md">
+                    <FaChevronRight size={10} />
+                  </div>
+                </div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Featured Projects - Pure White Cards on Soft Stone Bg */}
-      <section className="py-24 bg-secondary border-t border-border overflow-hidden">
-        <div className="max-w-5xl mx-auto">
-          <div className="grid lg:grid-cols-3 gap-1">
-            {/* Left Side */}
+      {/* Featured Projects Video & Media Gallery Section (Luxury Dark Theme) */}
+      <section className="py-24 bg-[#0B0F17] text-white relative overflow-hidden border-t border-[#C89B3C]/20 shadow-2xl">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          {/* Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="text-center mb-16"
+          >
+            <span className="px-4 py-1.5 rounded-full bg-white/10 text-[#C89B3C] font-extrabold text-xs tracking-widest uppercase border border-[#C89B3C]/30 shadow-md">
+              PROJECT GALLERY
+            </span>
 
-            <div className="lg:col-span-2">
-              {/* Top Video Card */}
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white mt-4 tracking-tight">
+              Featured Video & <span className="text-[#C89B3C]">Media Highlights</span>
+            </h2>
+            <p className="text-slate-400 text-sm max-w-xl mx-auto mt-2 font-medium">
+              Take a virtual tour of our site developments and infrastructure progress across Jaipur.
+            </p>
+            <div className="h-1 w-20 bg-[#C89B3C] mx-auto mt-4 rounded-full" />
+          </motion.div>
 
+          {/* Gallery Grid */}
+          <div className="grid lg:grid-cols-3 gap-6">
+            {/* Left Side (2 Rows) */}
+            <div className="lg:col-span-2 space-y-6">
+              {/* Top Video Trigger Card */}
               <motion.div
-                initial={{ opacity: 0, x: -120 }}
+                initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
-                className="relative overflow-hidden  h-80 mb-2 group"
+                transition={{ duration: 0.6 }}
+                className="relative overflow-hidden rounded-3xl h-72 group border-2 border-white/10 hover:border-[#C89B3C] shadow-2xl transition-all duration-500 cursor-pointer"
               >
                 <img
                   src={galleryProjects[0].image}
-                  alt=""
-                  className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
+                  alt="Site Overview Video"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
 
-                <div className="absolute inset-0 bg-black/20" />
+                <div className="absolute inset-0 bg-[#000000]/50 backdrop-blur-[1px] group-hover:bg-[#000000]/30 transition-all" />
 
                 <a
                   href={galleryProjects[0].link}
                   target="_blank"
                   rel="noreferrer"
-                  className="absolute inset-0 flex items-center justify-center"
+                  className="absolute inset-0 flex items-center justify-center flex-col gap-3"
                 >
-                  <div className="w-20 h-20 rounded-full bg-red-600 flex items-center justify-center shadow-xl">
-                    <FaPlay className="text-white text-3xl ml-1" />
+                  <div className="relative flex items-center justify-center">
+                    <div className="absolute w-20 h-20 rounded-full bg-[#C89B3C]/40 animate-ping" />
+                    <div className="w-16 h-16 rounded-full bg-[#C89B3C] text-[#000000] flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform border-2 border-white">
+                      <FaPlay className="text-[#000000] text-xl ml-1" />
+                    </div>
                   </div>
+                  <span className="bg-[#000000]/80 text-[#C89B3C] font-black text-xs tracking-wider uppercase px-4 py-1.5 rounded-full border border-[#C89B3C]/40 shadow-lg">
+                    Watch Virtual Site Tour 🎥
+                  </span>
                 </a>
               </motion.div>
 
               {/* Bottom Image Card */}
-
               <motion.div
-                initial={{ opacity: 0, y: 120 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
-                className="overflow-hidden  h-80 group"
+                transition={{ duration: 0.6 }}
+                className="overflow-hidden rounded-3xl h-72 group border-2 border-white/10 hover:border-[#C89B3C] shadow-2xl transition-all duration-500 cursor-pointer relative"
               >
                 <img
                   src={galleryProjects[1].image}
-                  alt=""
-                  className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
+                  alt="Site Construction"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
+                <div className="absolute bottom-4 left-4 z-10">
+                  <span className="bg-[#000000]/80 backdrop-blur-md text-[#C89B3C] text-[10px] font-black tracking-widest uppercase px-3 py-1 rounded-full border border-[#C89B3C]/30 shadow-md">
+                    INFRASTRUCTURE PROGRESS
+                  </span>
+                </div>
               </motion.div>
             </div>
 
-            {/* Right Tall Card */}
-
+            {/* Right Tall Image Card */}
             <motion.div
-              initial={{ opacity: 0, x: 120 }}
+              initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="overflow-hidden  h-161 group"
+              transition={{ duration: 0.6 }}
+              className="overflow-hidden rounded-3xl h-full min-h-[350px] group border-2 border-white/10 hover:border-[#C89B3C] shadow-2xl transition-all duration-500 cursor-pointer relative"
             >
               <img
                 src={galleryProjects[2].image}
-                alt=""
-                className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
+                alt="Township Gated Sector"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               />
+              <div className="absolute bottom-4 left-4 z-10">
+                <span className="bg-[#000000]/80 backdrop-blur-md text-[#C89B3C] text-[10px] font-black tracking-widest uppercase px-3 py-1 rounded-full border border-[#C89B3C]/30 shadow-md">
+                  GATED SECTOR ENTRANCE
+                </span>
+              </div>
             </motion.div>
           </div>
         </div>
@@ -881,3 +1413,6 @@ export default function HomePage() {
     </div>
   );
 }
+
+
+

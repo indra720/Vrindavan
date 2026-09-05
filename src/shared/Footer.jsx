@@ -9,6 +9,7 @@ import {
 import logof from "../assets/Vrinda-logo.png"
 import news1 from "../assets/news1.jpg";
 import news2 from "../assets/news2.jpeg";
+
 const quickLinks = [
   { to: "/", label: "Home" },
   { to: "/about", label: "About Us" },
@@ -20,26 +21,26 @@ const quickLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-black text-white overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 py-20">
-        <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-12">
+    <footer className="bg-black text-white overflow-hidden relative">
+      <div className="max-w-7xl mx-auto px-6 py-16 relative z-10">
+        <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-12 items-start">
           {/* Logo Section */}
-
           <motion.div
-            initial={{ opacity: 0, y: 80 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.5 }}
+            className="flex flex-col items-center md:items-start"
           >
-            <div className="w-40 h-40 p-8 bg-white rounded-full overflow-hidden border-4 border-white/20 mb-8">
+            <div className="w-32 h-32 p-3 bg-white rounded-full overflow-hidden shadow-2xl mb-6 flex items-center justify-center border-4 border-slate-100">
               <img
                 src={logof}
                 alt="Vrindavan Real Estate"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
               />
             </div>
 
-            <p className="text-gray-300 leading-10 text-sm">
+            <p className="text-slate-300 leading-relaxed text-sm text-center md:text-left font-medium">
               Shree Vrindavan Real Estate Pvt. Ltd. stands as a beacon of
               excellence in the real estate industry, driven by a passion for
               innovation, quality, and customer satisfaction.
@@ -47,23 +48,24 @@ export default function Footer() {
           </motion.div>
 
           {/* Services */}
-
           <motion.div
-            initial={{ opacity: 0, y: 80 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.1 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <h3 className="text-2xl font-bold mb-10">Services</h3>
+            <h3 className="text-xl font-bold mb-6 text-white tracking-tight">
+              Services
+            </h3>
 
-            <div className="space-y-5">
+            <div className="space-y-3">
               {quickLinks.map((item) => (
                 <Link
                   key={item.to}
                   to={item.to}
-                  className="flex items-center gap-3 text-sm text-gray-300 hover:text-white transition"
+                  className="flex items-center gap-2.5 text-sm text-slate-200 hover:text-white hover:translate-x-1.5 transition-all duration-300 group font-semibold"
                 >
-                  <FaChevronRight />
+                  <FaChevronRight size={11} className="text-slate-400 group-hover:text-white" />
                   {item.label}
                 </Link>
               ))}
@@ -71,65 +73,65 @@ export default function Footer() {
           </motion.div>
 
           {/* Top News */}
-
           <motion.div
-            initial={{ opacity: 0, y: 80 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <h3 className="text-2xl font-bold mb-10">Top News</h3>
+            <h3 className="text-xl font-bold mb-6 text-white tracking-tight">
+              Top News
+            </h3>
 
-            <div className="space-y-6">
-              <div className="flex gap-4">
-                <img src={news1} alt="" className="w-24 h-20 object-cover" />
-
-                <p className="text-gray-300 text-sm leading-8">
+            <div className="space-y-4">
+              <div className="flex gap-3.5 items-center group cursor-pointer">
+                <img src={news1} alt="" className="w-14 h-14 object-cover rounded-md shrink-0 shadow-md" />
+                <p className="text-white text-xs font-bold leading-snug group-hover:text-slate-300 transition-colors">
                   Vrindavan real estate prices surge
                 </p>
               </div>
 
-              <div className="flex gap-4">
-                <img src={news2} alt="" className="w-24 h-20 object-cover" />
-
-                <p className="text-gray-300 text-sm leading-8">
+              <div className="flex gap-3.5 items-center group cursor-pointer">
+                <img src={news2} alt="" className="w-14 h-14 object-cover rounded-md shrink-0 shadow-md" />
+                <p className="text-white text-xs font-bold leading-snug group-hover:text-slate-300 transition-colors">
                   Gated societies see rising demand
                 </p>
               </div>
             </div>
           </motion.div>
 
-          {/* Contact */}
-
+          {/* Contact Now */}
           <motion.div
-            initial={{ opacity: 0, y: 80 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.3 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
           >
-            <h3 className="text-2xl font-bold mb-10">Contact Now</h3>
+            <h3 className="text-xl font-bold mb-6 text-white tracking-tight">
+              Contact Now
+            </h3>
 
-            <div className="space-y-8">
-              <div className="flex gap-4">
-                <FaMapMarkerAlt className="text-blue-500 mt-2 text-xl shrink-0" />
-                <p className="text-gray-300 text-sm leading-8">
+            <div className="space-y-4">
+              <div className="flex gap-3 items-start">
+                <FaMapMarkerAlt size={16} className="text-[#0078D4] shrink-0 mt-0.5" />
+                <p className="text-slate-200 text-xs font-semibold leading-relaxed">
                   A4, Panchsheel Colony, Opp Diamond Tower, Purani Chungi, Ajmer
-                  Road, Jaipur - 302019
+                  Road, Jaipur-302019
                 </p>
               </div>
 
-              <div className="flex gap-4 items-center">
-                <FaPhoneAlt className="text-blue-500" />
-                <a href="tel:+917014289408" className="text-gray-300 text-sm">
+              <div className="flex gap-3 items-center">
+                <FaPhoneAlt size={14} className="text-[#0078D4] shrink-0" />
+                <a href="tel:+917014289408" className="text-slate-200 text-xs font-bold hover:text-white transition-colors">
                   (+91) 7014289408
                 </a>
               </div>
 
-              <div className="flex gap-4 items-center">
-                <FaEnvelope className="text-blue-500" />
+              <div className="flex gap-3 items-center">
+                <FaEnvelope size={14} className="text-[#0078D4] shrink-0" />
                 <a
                   href="mailto:info@vrindavanrealestate.in"
-                  className="text-gray-300 text-sm"
+                  className="text-slate-200 text-xs font-bold hover:text-white transition-colors"
                 >
                   info@vrindavanrealestate.in
                 </a>
@@ -139,21 +141,21 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Bottom Bar */}
-
-      <div className="bg-[#052d47] py-6">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="flex gap-8 text-white text-sm">
-            <Link to="/">Terms & Conditions</Link>
-            <span>-----</span>
-            <Link to="/">Privacy Policy</Link>
+      {/* Bottom Bar (Deep Navy #0A192F to match reference image) */}
+      <div className="bg-[#0A192F] py-4 border-t border-slate-800/80">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-3">
+          <div className="flex items-center gap-4 text-slate-300 text-xs font-semibold">
+            <Link to="/" className="hover:text-white transition-colors">Terms & Conditions</Link>
+            <span className="text-slate-500">-----</span>
+            <Link to="/" className="hover:text-white transition-colors">Privacy Policy</Link>
           </div>
 
-          <p className="text-white text-sm">
-            2026 © All copyright served by Vrindavan Real Estate
+          <p className="text-slate-300 text-xs font-semibold">
+            2026 © All copyright served by Vrindavan Real State
           </p>
         </div>
       </div>
     </footer>
   );
 }
+

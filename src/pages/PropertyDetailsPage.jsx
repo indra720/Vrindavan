@@ -24,86 +24,101 @@ export default function PropertyDetailsPage() {
   }
 
   return (
-    <div>
-      <div className="bg-[#2e2c2c] text-white border-b border-gray-700">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4">
-          <h1 className="mt-2 text-4xl font-bold">Property Details</h1>
-          <div className="flex items-center gap-2 text-md text-gray-400">
-            Home <span className="text-gray-500">::</span> Property Details
+    <div className="bg-[#F4F6FA]">
+      <div className="bg-[#111827] text-white py-12 border-b border-slate-800">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <p className="text-xs font-bold uppercase tracking-widest text-slate-400">
+            PROPERTY DETAILS
+          </p>
+          <h1 className="mt-2 text-4xl sm:text-5xl font-extrabold text-white">{project.title}</h1>
+          <div className="flex items-center gap-2 text-sm text-slate-300 font-medium mt-3">
+            <Link to="/" className="hover:text-white transition-colors">Home</Link>
+            <span className="text-slate-500">•</span>
+            <Link to="/projects" className="hover:text-white transition-colors">Projects</Link>
+            <span className="text-slate-500">•</span>
+            <span className="text-white font-semibold">{project.title}</span>
           </div>
         </div>
       </div>
+
       {/* main content  */}
-      <section className="bg-[#f5f5f5] py-16">
+      <section className="bg-white border-t border-slate-200/60 py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-[2fr_0.9fr] gap-8 ">
+          <div className="grid lg:grid-cols-[2fr_0.9fr] gap-10">
             {/* Left Side */}
             <div>
-              <p className="text-[#0d5bd7] text-2xl font-semibold mb-3">
-                For Sale
-              </p>
+              <span className="inline-block px-4 py-1.5 rounded-full bg-emerald-50 text-emerald-700 font-extrabold text-xs tracking-wider uppercase border border-emerald-200/60 mb-4">
+                FOR SALE
+              </span>
 
               <motion.h2
-                initial={{ opacity: 0, y: 60 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{
-                  duration: 0.8,
+                  duration: 0.6,
                   ease: "easeOut",
                 }}
-                className="text-4xl font-bold text-gray-900 mb-6"
+                className="text-3xl md:text-4xl font-black text-[#0C102A] mb-4"
               >
                 {project.title}
               </motion.h2>
 
-              <div className="flex items-center gap-2 text-gray-600 mb-8">
+              <div className="flex items-center gap-2 text-indigo-600 font-bold text-sm mb-8">
                 <FaMapMarkerAlt />
                 <span>{project.location}</span>
               </div>
 
-              <div className="overflow-hidden rounded-lg shadow-lg">
+              <div className="overflow-hidden rounded-3xl shadow-xl border border-slate-200/80 mb-10">
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="w-auto md:w-full h-auto md:h-137.5 object-cover "
+                  className="w-full h-auto md:h-137.5 object-cover"
                 />
               </div>
-              <marquee>
-                <h2 className="text-2xl md:text-4xl p-2 font-bold ">
-                  About This Listing Description
-                </h2>
-              </marquee>
+
+              <div className="bg-indigo-50/50 border border-indigo-100 rounded-2xl p-4 mb-8">
+                <marquee>
+                  <h2 className="text-xl md:text-2xl font-extrabold text-[#0C102A]">
+                    About This Listing Description • Prime Plots in Jaipur • Transparent Documentation
+                  </h2>
+                </marquee>
+              </div>
+
               <div>
                 <motion.div
-                  initial={{ opacity: 0, x: -80 }}
+                  initial={{ opacity: 0, x: -40 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.8 }}
+                  transition={{ duration: 0.6 }}
                 >
                   {project.description.map((para, idx) => (
-                    <p key={idx} className="text-gray-600 text-lg mb-3">
+                    <p key={idx} className="text-slate-600 text-base leading-relaxed mb-4">
                       {para}
                     </p>
                   ))}
 
                   {project.sections.map((section, idx) => (
-                    <div key={idx}>
+                    <div key={idx} className="bg-[#F4F6FA] border border-slate-200/80 rounded-3xl p-6 mb-6">
                       <motion.h3
-                        initial={{ opacity: 0, y: 60 }}
+                        initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{
-                          duration: 0.8,
+                          duration: 0.6,
                           ease: "easeOut",
                         }}
-                        className="text-xl font-bold text-gray-900 mb-3 mt-8"
+                        className="text-xl font-extrabold text-[#0C102A] mb-4 flex items-center gap-2"
                       >
+                        <span className="w-2 h-2 rounded-full bg-[#4F46E5]"></span>
                         {section.title}
                       </motion.h3>
 
-                      <ul className="space-y-2 text-gray-600 text-md mb-8">
+                      <ul className="space-y-2.5 text-slate-700 text-sm font-medium">
                         {section.items.map((item, itemIdx) => (
-                          <li key={itemIdx}>• {item}</li>
+                          <li key={itemIdx} className="flex items-center gap-2">
+                            <span className="text-[#4F46E5] font-bold">•</span> {item}
+                          </li>
                         ))}
                       </ul>
                     </div>
@@ -112,26 +127,26 @@ export default function PropertyDetailsPage() {
               </div>
 
               {/* property Video */}
-              <div>
+              <div className="mt-10">
                 <motion.h3
-                  initial={{ opacity: 0, y: 60 }}
+                  initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{
-                    duration: 0.8,
+                    duration: 0.6,
                     ease: "easeOut",
                   }}
-                  className="text-xl font-bold text-gray-900 mb-3"
+                  className="text-2xl font-extrabold text-[#0C102A] mb-4"
                 >
                   Property Video
                 </motion.h3>
-                <div className="overflow-hidden rounded-lg shadow-md w-full">
+                <div className="overflow-hidden rounded-3xl shadow-xl border border-slate-200/80 w-full">
                   <video
                     loop
                     autoPlay
                     muted
                     playsInline
-                    className="w-full h-125 object-cover"
+                    className="w-full h-96 object-cover"
                     poster={project.videoPoster}
                   >
                     <source src={heroVideo} type="video/mp4" />
@@ -140,35 +155,35 @@ export default function PropertyDetailsPage() {
               </div>
 
               {/* form */}
-              <div className="mt-12">
-                <h2 className="text-2xl font-semibold mb-6">
+              <div className="mt-12 bg-[#F4F6FA] border border-slate-200/80 rounded-3xl p-8 shadow-xl shadow-indigo-950/5">
+                <h2 className="text-2xl font-extrabold text-[#0C102A] mb-6">
                   Leave Feedback About This
                 </h2>
 
                 <form className="space-y-6">
                   <textarea
                     placeholder="Write Your Comments"
-                    rows={8}
-                    className="w-full border border-gray-300 p-4 outline-none focus:border-black resize-none"
+                    rows={6}
+                    className="w-full border border-slate-200 rounded-2xl p-4 bg-white text-slate-800 outline-none focus:border-[#4F46E5] focus:ring-2 focus:ring-indigo-100 resize-none text-sm"
                   />
 
                   <div className="grid md:grid-cols-2 gap-5">
                     <input
                       type="text"
                       placeholder="Name"
-                      className="border border-gray-300 p-4 outline-none focus:border-black"
+                      className="border border-slate-200 rounded-2xl p-4 bg-white text-slate-800 outline-none focus:border-[#4F46E5] focus:ring-2 focus:ring-indigo-100 text-sm"
                     />
 
                     <input
                       type="email"
                       placeholder="Email"
-                      className="border border-gray-300 p-4 outline-none focus:border-black"
+                      className="border border-slate-200 rounded-2xl p-4 bg-white text-slate-800 outline-none focus:border-[#4F46E5] focus:ring-2 focus:ring-indigo-100 text-sm"
                     />
                   </div>
 
                   <div className="flex items-start gap-3">
-                    <input type="checkbox" className="mt-1" />
-                    <label className="text-gray-600">
+                    <input type="checkbox" className="mt-1 rounded accent-[#4F46E5]" />
+                    <label className="text-slate-600 text-xs">
                       Save my name, email, and website in this browser for the
                       next time I comment.
                     </label>
@@ -176,7 +191,7 @@ export default function PropertyDetailsPage() {
 
                   <button
                     type="submit"
-                    className="bg-[#003b82] hover:bg-[#002b61] text-white px-8 py-3 font-semibold transition-all duration-300"
+                    className="bg-gradient-to-r from-[#4F46E5] to-[#6366F1] text-white px-8 py-3.5 rounded-2xl font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-indigo-600/30 hover:scale-105 transition-all duration-300"
                   >
                     Send Feedback
                   </button>
@@ -186,73 +201,77 @@ export default function PropertyDetailsPage() {
 
             {/* Right Side */}
             <div className="flex flex-col gap-8">
-              <div className="bg-gray-200 shadow-lg overflow-hidden relative">
-                <div className="h-52 bg-[#0d5bd7] rounded-b-[140px] flex items-start justify-center pt-8">
-                  <h3 className="text-white text-3xl font-bold">
+              <div className="bg-white border border-slate-200 rounded-3xl shadow-xl overflow-hidden relative">
+                <div className="h-44 bg-[#111827] rounded-b-[100px] flex items-start justify-center pt-8 border-b border-slate-800">
+                  <h3 className="text-white text-2xl font-extrabold tracking-wide">
                     36 Properties
                   </h3>
                 </div>
 
-                <div className="flex justify-center -mt-24 relative z-10">
+                <div className="flex justify-center -mt-20 relative z-10">
                   <img
                     src={himanshu}
                     alt="Agent"
-                    className="w-44 h-44 rounded-full border-8 border-white object-contain"
+                    className="w-36 h-36 rounded-full border-4 border-white shadow-xl object-contain bg-slate-100"
                   />
                 </div>
 
-                <div className="px-8 pb-10 text-center">
-                  <h3 className="text-4xl font-bold text-[#0d5bd7]">
+                <div className="px-8 pb-8 text-center mt-4">
+                  <h3 className="text-3xl font-extrabold text-slate-900">
                     Himanshu Singh
                   </h3>
-                  <p className="text-lg text-gray-600 mt-2">CEO & Founder</p>
-                  <div className="mt-6 text-gray-700 text-lg">
+                  <p className="text-xs font-bold text-slate-700 uppercase tracking-widest mt-1">CEO & Founder</p>
+                  <div className="mt-4 text-slate-900 font-extrabold text-base bg-slate-100 border border-slate-200 rounded-xl py-2 px-4 inline-block">
                     📞 +91 7014289408
                   </div>
-                  <p className="mt-8 text-gray-600 leading-9 text-lg">
+                  <p className="mt-6 text-slate-600 leading-relaxed text-xs">
                     Explore prime real estate opportunities in Jaipur, offering
                     luxurious villas, modern plots. Perfect for investment or
                     living, these properties blend tradition with contemporary
                     living.
                   </p>
-                  <button className="mt-10 bg-[#002f6c] text-white px-8 py-4 text-lg font-semibold hover:bg-[#001d43] transition">
+                  <Link 
+                    to="/contact"
+                    className="mt-8 inline-block w-full bg-[#111827] hover:bg-black text-white py-3.5 rounded-2xl text-xs font-extrabold tracking-wider uppercase shadow-md transition-all text-center"
+                  >
                     Contact Us
-                  </button>
+                  </Link>
                 </div>
               </div>
 
               <motion.div
-                initial={{ opacity: 0, x: 120 }}
+                initial={{ opacity: 0, x: 50 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 1 }}
+                transition={{ duration: 0.6 }}
               >
-                <div className="bg-gray-200 p-10">
-                  <h3 className="text-xl font-bold text-[#0d5bd7] mb-10">
+                <div className="bg-white border border-slate-200/80 rounded-3xl p-8 shadow-xl shadow-indigo-950/5">
+                  <h3 className="text-xl font-extrabold text-[#0C102A] mb-8 pb-3 border-b border-slate-100 flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-[#F59E0B]"></span>
                     Popular Properties
                   </h3>
 
-                  <div className="flex gap-5 mb-10">
-                    <img src={vasundhara} alt="" className="w-26 h-22 object-contain" />
+                  <div className="flex gap-4 mb-6 items-center">
+                    <img src={vasundhara} alt="" className="w-20 h-16 object-cover rounded-xl border border-slate-200 shrink-0" />
                     <div>
-                      <h4 className="text-xl font-semibold">Affordable Plots</h4>
-                      <p className="text-gray-600 text-sm mt-2">Vasundhara Nagar Jaipur</p>
+                      <h4 className="text-sm font-extrabold text-[#0C102A]">Affordable Plots</h4>
+                      <p className="text-slate-500 text-xs font-medium mt-1">Vasundhara Nagar Jaipur</p>
                     </div>
                   </div>
 
-                  <div className="flex gap-5 mb-10">
-                    <img src={shreedhar} alt="" className="w-26 h-22 object-contain" />
+                  <div className="flex gap-4 mb-6 items-center">
+                    <img src={shreedhar} alt="" className="w-20 h-16 object-cover rounded-xl border border-slate-200 shrink-0" />
                     <div>
-                      <h4 className="text-xl font-semibold">Most Luxurious</h4>
-                      <p className="text-gray-600 text-sm mt-2">Ajmer Road Jaipur</p>
+                      <h4 className="text-sm font-extrabold text-[#0C102A]">Most Luxurious</h4>
+                      <p className="text-slate-500 text-xs font-medium mt-1">Ajmer Road Jaipur</p>
                     </div>
                   </div>
 
-                  <div className="flex gap-5">
-                    <img src={urmila} alt="" className="w-26 h-22 object-contain" />
+                  <div className="flex gap-4 items-center">
+                    <img src={urmila} alt="" className="w-20 h-16 object-cover rounded-xl border border-slate-200 shrink-0" />
                     <div>
-                      <h4 className="text-xl font-semibold">Prime Residential Plots</h4>
-                      <p className="text-gray-600 text-sm mt-2">Sikar Road Jaipur</p>
+                      <h4 className="text-sm font-extrabold text-[#0C102A]">Prime Residential Plots</h4>
+                      <p className="text-slate-500 text-xs font-medium mt-1">Sikar Road Jaipur</p>
                     </div>
                   </div>
                 </div>
@@ -264,3 +283,4 @@ export default function PropertyDetailsPage() {
     </div>
   )
 }
+

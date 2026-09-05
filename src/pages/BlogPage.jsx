@@ -66,29 +66,34 @@ const blogContent = [
 
 export default function BlogPage() {
   return (
-    <div>
-      <div className="bg-[#2e2c2c] text-white border-b border-gray-700">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 ">
-          <h1 className="mt-2 text-4xl font-bold">Latest News</h1>
-          <div className="flex items-center gap-2 text-md text-gray-400 space-y-2">
-            Home <span className="text-gray-500">::</span> Blog
+    <div className="bg-[#F4F6FA]">
+      <div className="bg-[#111827] text-white py-12 border-b border-slate-800">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <p className="text-xs font-bold uppercase tracking-widest text-slate-400">
+            REAL ESTATE INSIGHTS
+          </p>
+          <h1 className="mt-2 text-4xl sm:text-5xl font-extrabold text-white">Latest News</h1>
+          <div className="flex items-center gap-2 text-sm text-slate-300 font-medium mt-3">
+            <Link to="/" className="hover:text-white transition-colors">Home</Link>
+            <span className="text-slate-500">•</span>
+            <span className="text-white font-semibold">Blog</span>
           </div>
         </div>
       </div>
 
-      <section className="py-24 bg-[#f8f8f8] overflow-hidden">
+      <section className="py-20 bg-[#F4F6FA] overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="text-center mb-16"
+            className="text-center mb-14"
           >
-            <p className="text-blue-600 font-semibold text-lg mb-3">
-              Our Latest Blog
-            </p>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
+            <span className="px-4 py-1.5 rounded-full bg-indigo-50 text-[#4F46E5] font-extrabold text-xs tracking-widest uppercase border border-indigo-100">
+              OUR LATEST BLOG
+            </span>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-[#0C102A] mt-4">
               Latest News & Stories
             </h2>
           </motion.div>
@@ -97,31 +102,31 @@ export default function BlogPage() {
             {blogs.map((blog, idx) => (
               <motion.div
                 key={idx}
-                initial={{ opacity: 0, y: 100 }}
+                initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: idx * 0.15 }}
-                className="bg-white shadow-lg overflow-hidden group hover:shadow-2xl transition-all duration-500"
+                transition={{ duration: 0.6, delay: idx * 0.1 }}
+                className="bg-white rounded-3xl border border-slate-200/80 shadow-xl shadow-indigo-950/5 overflow-hidden group hover:shadow-2xl hover:border-indigo-300 transition-all duration-500 flex flex-col"
               >
-                <div className="overflow-hidden h-70">
+                <div className="overflow-hidden h-60 relative bg-slate-100">
                   <img
                     src={blog.img}
                     alt={blog.title}
                     className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
                   />
                 </div>
-                <div className="p-7">
-                  <div className="flex items-center gap-2 text-blue-600 font-semibold text-sm mb-4">
+                <div className="p-7 flex flex-col grow">
+                  <div className="flex items-center gap-2 text-indigo-600 font-bold text-xs mb-3">
                     <FaCalendarAlt />
                     {blog.date}
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-900 leading-snug mb-5 group-hover:text-blue-600 transition-all">
+                  <h3 className="text-xl font-extrabold text-[#0C102A] leading-snug mb-3 group-hover:text-[#4F46E5] transition-colors">
                     {blog.title}
                   </h3>
-                  <p className="text-gray-600 leading-8 mb-6">{blog.desc}</p>
+                  <p className="text-slate-600 text-sm leading-relaxed mb-6 grow">{blog.desc}</p>
                   <Link
                     to={`/blog/${encodeURIComponent(blog.title)}`}
-                    className="inline-flex items-center gap-2 text-blue-600 font-semibold hover:gap-4 transition-all"
+                    className="inline-flex items-center gap-2 text-[#4F46E5] font-extrabold text-xs uppercase tracking-wider hover:gap-3 transition-all pt-4 border-t border-slate-100 mt-auto"
                   >
                     Read More →
                   </Link>
@@ -132,22 +137,25 @@ export default function BlogPage() {
         </div>
       </section>
 
-      <section className="bg-[#f5f5f5] py-16">
+      <section className="bg-white border-t border-slate-200/60 py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-[2fr_0.9fr] gap-8 ">
+          <div className="grid lg:grid-cols-[2fr_0.9fr] gap-10">
             {/* Left Side */}
             <div>
+              <span className="inline-block px-4 py-1.5 rounded-full bg-amber-50 text-[#D97706] font-extrabold text-xs tracking-wider uppercase border border-amber-200/60 mb-4">
+                FEATURED ARTICLE
+              </span>
               <motion.h2
-                initial={{ opacity: 0, x: -60 }}
+                initial={{ opacity: 0, x: -40 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-                className="text-4xl font-semibold text-black mb-10"
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                className="text-3xl md:text-4xl font-black text-[#0C102A] mb-8"
               >
                 Featured Story
               </motion.h2>
 
-              <div className="overflow-hidden rounded-lg shadow-lg mb-10">
+              <div className="overflow-hidden rounded-3xl shadow-xl border border-slate-200/80 mb-10">
                 <img
                   src={blog4}
                   alt="Property"
@@ -156,23 +164,24 @@ export default function BlogPage() {
               </div>
 
               {blogContent.map((item, index) => (
-                <div key={index} className="mb-8">
+                <div key={index} className="mb-8 bg-[#F4F6FA] border border-slate-200/80 rounded-3xl p-6">
                   <motion.h2
-                    initial={{ opacity: 0, x: -60 }}
+                    initial={{ opacity: 0, x: -40 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                    className="text-3xl py-4 font-semibold text-black"
+                    transition={{ duration: 0.6, ease: "easeOut" }}
+                    className="text-xl md:text-2xl font-extrabold text-[#0C102A] mb-3 flex items-center gap-2"
                   >
+                    <span className="w-2 h-2 rounded-full bg-[#4F46E5]"></span>
                     {item.title}
                   </motion.h2>
                   <motion.div
-                    initial={{ opacity: 0, x: -80 }}
+                    initial={{ opacity: 0, x: -40 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.8 }}
+                    transition={{ duration: 0.6 }}
                   >
-                    <p className="text-gray-600 text-lg leading-relaxed">
+                    <p className="text-slate-600 text-sm leading-relaxed">
                       {item.content}
                     </p>
                   </motion.div>
@@ -182,33 +191,37 @@ export default function BlogPage() {
 
             {/* Right Side */}
             <div className="flex flex-col gap-8">
-              <div className="bg-gray-200 shadow-lg overflow-hidden relative">
-                <div className="h-52 bg-[#0d5bd7] rounded-b-[140px] flex items-start justify-center pt-8">
-                  <h3 className="text-white text-3xl font-bold">Agent Info</h3>
+              <div className="bg-white border border-slate-200 rounded-3xl shadow-xl overflow-hidden relative">
+                <div className="h-44 bg-[#111827] rounded-b-[100px] flex items-start justify-center pt-8 border-b border-slate-800">
+                  <h3 className="text-white text-2xl font-extrabold tracking-wide">Agent Info</h3>
                 </div>
-                <div className="flex justify-center -mt-24 relative z-10">
+                <div className="flex justify-center -mt-20 relative z-10">
                   <img
                     src={himanshu}
                     alt="Agent"
-                    className="w-44 h-44 rounded-full border-8 border-white object-contain"
+                    className="w-36 h-36 rounded-full border-4 border-white shadow-xl object-contain bg-slate-100"
                   />
                 </div>
-                <div className="px-8 pb-10 text-center">
-                  <h3 className="text-3xl font-bold text-[#2674f1]">
+                <div className="px-8 pb-8 text-center mt-4">
+                  <h3 className="text-3xl font-extrabold text-slate-900">
                     Himanshu Singh
                   </h3>
-                  <p className="text-md text-gray-600 mt-2">CEO & Founder</p>
-                  <div className="mt-6 text-gray-700 text-lg">
+                  <p className="text-xs font-bold text-slate-700 uppercase tracking-widest mt-1">CEO & Founder</p>
+                  <div className="mt-4 text-slate-900 font-extrabold text-base bg-slate-100 border border-slate-200 rounded-xl py-2 px-4 inline-block">
                     📞 +91 7014289408
                   </div>
-                  <button className="mt-10 bg-[#002f6c] text-white px-8 py-4 text-lg font-semibold hover:bg-[#001d43] transition">
+                  <Link 
+                    to="/contact"
+                    className="mt-8 inline-block w-full bg-[#111827] hover:bg-black text-white py-3.5 rounded-2xl text-xs font-extrabold tracking-wider uppercase shadow-md transition-all text-center"
+                  >
                     Contact Us
-                  </button>
+                  </Link>
                 </div>
               </div>
 
-              <div className="bg-gray-200 p-10">
-                <h3 className="text-xl font-bold text-[#0d5bd7] mb-10">
+              <div className="bg-white border border-slate-200/80 rounded-3xl p-8 shadow-xl shadow-indigo-950/5">
+                <h3 className="text-xl font-extrabold text-[#0C102A] mb-8 pb-3 border-b border-slate-100 flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#F59E0B]"></span>
                   Popular Properties
                 </h3>
                 {[
@@ -216,11 +229,11 @@ export default function BlogPage() {
                   { title: "Most Luxurious", location: "Ajmer Road", img: shreedhar },
                   { title: "Prime Residential", location: "Sikar Road", img: urmila },
                 ].map((prop, idx) => (
-                  <div key={idx} className="flex gap-5 mb-10">
-                    <img src={prop.img} alt="" className="w-20 h-20 object-contain" />
+                  <div key={idx} className="flex gap-4 mb-6 items-center last:mb-0">
+                    <img src={prop.img} alt="" className="w-20 h-16 object-cover rounded-xl border border-slate-200 shrink-0" />
                     <div>
-                      <h4 className="text-xl font-semibold">{prop.title}</h4>
-                      <p className="text-gray-600 text-sm mt-2">{prop.location}</p>
+                      <h4 className="text-sm font-extrabold text-[#0C102A]">{prop.title}</h4>
+                      <p className="text-slate-500 text-xs font-medium mt-1">{prop.location}</p>
                     </div>
                   </div>
                 ))}
@@ -232,3 +245,4 @@ export default function BlogPage() {
     </div>
   );
 }
+

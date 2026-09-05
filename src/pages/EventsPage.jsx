@@ -44,91 +44,99 @@ export default function EventsPage() {
   const [active, setActive] = useState(events[0]);
 
   return (
-    <div>
-      <div className="bg-[#2e2c2c] text-white border-b border-gray-700">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 ">
-          <h1 className="mt-2 text-4xl font-bold">Latest Events</h1>
-          <div className="flex items-center gap-2 text-md text-gray-400 space-y-2">
-            Home <span className="text-gray-500">::</span> Latest Events
+    <div className="bg-[#F4F6FA]">
+      <div className="bg-[#111827] text-white py-12 border-b border-slate-800">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <p className="text-xs font-bold uppercase tracking-widest text-slate-400">
+            CORPORATE CEREMONIES
+          </p>
+          <h1 className="mt-2 text-4xl sm:text-5xl font-extrabold text-white">Latest Events</h1>
+          <div className="flex items-center gap-2 text-sm text-slate-300 font-medium mt-3">
+            <Link to="/" className="hover:text-white transition-colors">Home</Link>
+            <span className="text-slate-500">•</span>
+            <span className="text-white font-semibold">Latest Events</span>
           </div>
         </div>
       </div>
 
-      <motion.p
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-        className="text-blue-600 text-center text-2xl font-semibold py-4"
-      >
-        Our Latest Events
-      </motion.p>
-
-      <motion.h2
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
-        className="text-4xl font-bold text-center mt-3 mb-16"
-      >
-        Latest Events & Stories
-      </motion.h2>
-
-      <section className="py-10">
-        <div className="max-w-7xl mx-auto px-4">
-          {events.map((event, eventIndex) => (
-            <div key={eventIndex} className="mb-20">
-              <p className="font-semibold">Date: {event.date}</p>
-
-              <p className="font-semibold mb-6">Event: {event.name}</p>
-
-              <div className="grid md:grid-cols-4 gap-5">
-                {event.images?.map((img, index) => {
-                  const isVideo =
-                    typeof img === "string" && img.endsWith(".mp4");
-                  return (
-                    <motion.div
-                      key={index}
-                      initial={{
-                        opacity: 0,
-                        y: 100,
-                      }}
-                      whileInView={{
-                        opacity: 1,
-                        y: 0,
-                      }}
-                      viewport={{ once: true }}
-                      transition={{
-                        duration: 0.8,
-                        delay: index * 0.2,
-                      }}
-                    >
-                      {isVideo ? (
-                        <video
-                          src={img}
-                          className="w-full h-64 object-cover shadow-md rounded-lg"
-                          autoPlay
-                          loop
-                          muted
-                          playsInline
-                        />
-                      ) : (
-                        <img
-                          src={img}
-                          alt=""
-                          className="w-full h-64 object-cover shadow-md rounded-lg"
-                        />
-                      )}
-                    </motion.div>
-                  );
-                })}
-              </div>
-
-              <p className="font-semibold mt-4">Event: {event.name}</p>
-            </div>
-          ))}
+      <div className="py-16 max-w-7xl mx-auto px-6">
+        <div className="text-center mb-14">
+          <span className="px-4 py-1.5 rounded-full bg-indigo-50 text-[#4F46E5] font-extrabold text-xs tracking-widest uppercase border border-indigo-100">
+            OUR LATEST EVENTS
+          </span>
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-3xl md:text-4xl font-extrabold text-[#0C102A] mt-4"
+          >
+            Latest Events & Stories
+          </motion.h2>
+          <div className="h-1 w-20 bg-gradient-to-r from-[#4F46E5] to-[#F59E0B] mx-auto mt-4 rounded-full"></div>
         </div>
-      </section>
+
+        <section className="py-4">
+          <div className="max-w-7xl mx-auto">
+            {events.map((event, eventIndex) => (
+              <div key={eventIndex} className="mb-16 bg-white border border-slate-200/80 rounded-3xl p-8 shadow-xl shadow-indigo-950/5">
+                <div className="flex flex-wrap items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-100">
+                  <div className="flex items-center gap-3">
+                    <span className="px-3.5 py-1 rounded-full bg-amber-50 text-[#D97706] font-extrabold text-xs border border-amber-200/60">
+                      Date: {event.date}
+                    </span>
+                    <h3 className="font-extrabold text-[#0C102A] text-xl">Event: {event.name}</h3>
+                  </div>
+                </div>
+
+                <div className="grid md:grid-cols-4 gap-5">
+                  {event.images?.map((img, index) => {
+                    const isVideo =
+                      typeof img === "string" && img.endsWith(".mp4");
+                    return (
+                      <motion.div
+                        key={index}
+                        initial={{
+                          opacity: 0,
+                          y: 30,
+                        }}
+                        whileInView={{
+                          opacity: 1,
+                          y: 0,
+                        }}
+                        viewport={{ once: true }}
+                        transition={{
+                          duration: 0.5,
+                          delay: index * 0.1,
+                        }}
+                        className="overflow-hidden rounded-2xl border border-slate-200 shadow-md group"
+                      >
+                        {isVideo ? (
+                          <video
+                            src={img}
+                            className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                          />
+                        ) : (
+                          <img
+                            src={img}
+                            alt=""
+                            className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
+                          />
+                        )}
+                      </motion.div>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
     </div>
   );
 }
+
