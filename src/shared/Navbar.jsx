@@ -98,7 +98,7 @@ export default function Navbar() {
                     to={item.to}
                     end={item.to === "/"}
                     className={({ isActive }) =>
-                      `relative font-extrabold text-[13px] xl:text-[14px] tracking-wider transition-all duration-300 py-1 group ${
+                      `relative font-semibold text-[13px] xl:text-[14px] tracking-wide transition-all duration-300 py-1 group ${
                         isActive 
                           ? "text-[#000000] after:w-full" 
                           : "text-slate-700 hover:text-[#000000]"
@@ -108,7 +108,7 @@ export default function Navbar() {
                     {({ isActive }) => (
                       <>
                         {item.label}
-                        <span className={`absolute bottom-0 left-0 h-0.5 bg-[#000000] transition-all duration-300 ${isActive ? "w-full" : "w-0 group-hover:w-full"}`} />
+                        <span className={`absolute bottom-0 left-0 h-0.5 bg-[#C89B3C] transition-all duration-300 ${isActive ? "w-full" : "w-0 group-hover:w-full"}`} />
                       </>
                     )}
                   </NavLink>
@@ -118,14 +118,14 @@ export default function Navbar() {
               {/* Call CTA Button Pill */}
               <a 
                 href="tel:+917014289408"
-                className="flex items-center gap-3 bg-[#000000] hover:bg-black text-white px-5 py-2.5 rounded-full shadow-md transition-all duration-300 hover:scale-105 group"
+                className="flex items-center gap-3 bg-[#000000] hover:bg-slate-900 text-white px-5 py-2 rounded-full shadow-sm transition-all duration-300 hover:scale-105 group"
               >
                 <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-[#C89B3C] group-hover:bg-[#C89B3C] group-hover:text-white transition-colors">
-                  <IoCall size={16} />
+                  <IoCall size={15} />
                 </div>
                 <div className="whitespace-nowrap text-left">
-                  <p className="text-[9px] font-extrabold uppercase tracking-widest text-slate-400 leading-none mb-0.5">Call Us Now</p>
-                  <p className="text-[13px] font-black text-white tracking-tight leading-none">
+                  <p className="text-[9px] font-medium uppercase tracking-widest text-slate-400 leading-none mb-0.5">Call Us Now</p>
+                  <p className="text-[13px] font-semibold text-white tracking-tight leading-none">
                     (+91) 7014289408
                   </p>
                 </div>
@@ -154,7 +154,7 @@ export default function Navbar() {
                 to={item.to}
                 onClick={() => setOpen(false)}
                 className={({ isActive }) => 
-                  `block px-4 py-3 rounded-xl font-extrabold text-sm tracking-wider transition-all ${
+                  `block px-4 py-3 rounded-xl font-semibold text-sm tracking-wider transition-all ${
                     isActive 
                       ? "bg-[#000000] text-white" 
                       : "text-slate-800 hover:bg-slate-100"
@@ -167,7 +167,7 @@ export default function Navbar() {
             <div className="pt-4 border-t border-slate-100">
               <a 
                 href="tel:+917014289408"
-                className="flex items-center justify-center gap-3 bg-[#000000] text-white py-3 rounded-xl font-extrabold text-sm shadow-md"
+                className="flex items-center justify-center gap-3 bg-[#000000] text-white py-3 rounded-xl font-semibold text-sm shadow-md"
               >
                 <IoCall size={18} className="text-[#C89B3C]" />
                 <span>Call Us: (+91) 7014289408</span>

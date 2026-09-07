@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import PageHeader from "../shared/PageHeader";
 import { motion } from "framer-motion";
 import { FaMapMarkerAlt, FaPlay } from "react-icons/fa";
 import { projectsData } from "../data/projectsData";
@@ -24,26 +25,33 @@ export default function PropertyDetailsPage() {
   }
 
   return (
-    <div className="bg-[#F4F6FA]">
-      <div className="bg-[#111827] text-white py-12 border-b border-slate-800">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <p className="text-xs font-bold uppercase tracking-widest text-slate-400">
-            PROPERTY DETAILS
-          </p>
-          <h1 className="mt-2 text-4xl sm:text-5xl font-extrabold text-white">{project.title}</h1>
-          <div className="flex items-center gap-2 text-sm text-slate-300 font-medium mt-3">
-            <Link to="/" className="hover:text-white transition-colors">Home</Link>
-            <span className="text-slate-500">•</span>
-            <Link to="/projects" className="hover:text-white transition-colors">Projects</Link>
-            <span className="text-slate-500">•</span>
-            <span className="text-white font-semibold">{project.title}</span>
-          </div>
-        </div>
-      </div>
+    <div className="bg-[#F8F9FA] min-h-screen">
+      {/* Ultra-Luxury Page Header */}
+      <PageHeader 
+        badge="PROPERTY DETAILS"
+        title={project.title}
+        goldTitle=""
+        subtitle={`Complete Overview, Plot Layouts & Infrastructure Features of ${project.title} Jaipur`}
+        breadcrumbs={[
+          { label: "Home", link: "/" },
+          { label: "Projects", link: "/projects" },
+          { label: "Details" }
+        ]}
+      />
 
       {/* main content  */}
-      <section className="bg-white border-t border-slate-200/60 py-16">
+      <section className="bg-white border-t border-slate-200/60 py-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          {/* Top Navigation Back Button */}
+          <div className="mb-6">
+            <Link
+              to="/projects"
+              className="inline-flex items-center gap-2 text-xs font-bold text-slate-700 hover:text-[#C89B3C] bg-[#F8F9FA] border border-slate-200 px-4 py-2.5 rounded-xl shadow-sm transition-all"
+            >
+              <span>←</span> Back to All Projects
+            </Link>
+          </div>
+
           <div className="grid lg:grid-cols-[2fr_0.9fr] gap-10">
             {/* Left Side */}
             <div>
@@ -59,27 +67,28 @@ export default function PropertyDetailsPage() {
                   duration: 0.6,
                   ease: "easeOut",
                 }}
-                className="text-3xl md:text-4xl font-black text-[#0C102A] mb-4"
+                className="text-3xl md:text-4xl font-black text-[#000000] mb-4"
               >
                 {project.title}
               </motion.h2>
 
-              <div className="flex items-center gap-2 text-indigo-600 font-bold text-sm mb-8">
+              <div className="flex items-center gap-2 text-[#C89B3C] font-bold text-sm mb-8">
                 <FaMapMarkerAlt />
                 <span>{project.location}</span>
               </div>
 
-              <div className="overflow-hidden rounded-3xl shadow-xl border border-slate-200/80 mb-10">
+              {/* Main Banner Image Container (Fixed Framing to Prevent Cropping) */}
+              <div className="overflow-hidden rounded-3xl shadow-xl border border-slate-200/80 bg-slate-900 p-3 sm:p-4 mb-10 flex items-center justify-center max-h-[500px]">
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-auto md:h-137.5 object-cover"
+                  className="max-h-[460px] w-auto max-w-full object-contain rounded-2xl mx-auto shadow-md"
                 />
               </div>
 
-              <div className="bg-indigo-50/50 border border-indigo-100 rounded-2xl p-4 mb-8">
+              <div className="bg-[#F8F9FA] border border-slate-200 rounded-2xl p-4 mb-8">
                 <marquee>
-                  <h2 className="text-xl md:text-2xl font-extrabold text-[#0C102A]">
+                  <h2 className="text-xl md:text-2xl font-extrabold text-[#000000]">
                     About This Listing Description • Prime Plots in Jaipur • Transparent Documentation
                   </h2>
                 </marquee>
@@ -99,7 +108,7 @@ export default function PropertyDetailsPage() {
                   ))}
 
                   {project.sections.map((section, idx) => (
-                    <div key={idx} className="bg-[#F4F6FA] border border-slate-200/80 rounded-3xl p-6 mb-6">
+                    <div key={idx} className="bg-[#F8F9FA] border border-slate-200/80 rounded-3xl p-6 mb-6">
                       <motion.h3
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -108,16 +117,16 @@ export default function PropertyDetailsPage() {
                           duration: 0.6,
                           ease: "easeOut",
                         }}
-                        className="text-xl font-extrabold text-[#0C102A] mb-4 flex items-center gap-2"
+                        className="text-xl font-extrabold text-[#000000] mb-4 flex items-center gap-2"
                       >
-                        <span className="w-2 h-2 rounded-full bg-[#4F46E5]"></span>
+                        <span className="w-2 h-2 rounded-full bg-[#C89B3C]"></span>
                         {section.title}
                       </motion.h3>
 
                       <ul className="space-y-2.5 text-slate-700 text-sm font-medium">
                         {section.items.map((item, itemIdx) => (
                           <li key={itemIdx} className="flex items-center gap-2">
-                            <span className="text-[#4F46E5] font-bold">•</span> {item}
+                            <span className="text-[#C89B3C] font-bold">•</span> {item}
                           </li>
                         ))}
                       </ul>
@@ -126,7 +135,7 @@ export default function PropertyDetailsPage() {
                 </motion.div>
               </div>
 
-              {/* property Video */}
+              {/* Property Video */}
               <div className="mt-10">
                 <motion.h3
                   initial={{ opacity: 0, y: 30 }}
@@ -136,7 +145,7 @@ export default function PropertyDetailsPage() {
                     duration: 0.6,
                     ease: "easeOut",
                   }}
-                  className="text-2xl font-extrabold text-[#0C102A] mb-4"
+                  className="text-2xl font-extrabold text-[#000000] mb-4"
                 >
                   Property Video
                 </motion.h3>
@@ -154,9 +163,9 @@ export default function PropertyDetailsPage() {
                 </div>
               </div>
 
-              {/* form */}
-              <div className="mt-12 bg-[#F4F6FA] border border-slate-200/80 rounded-3xl p-8 shadow-xl shadow-indigo-950/5">
-                <h2 className="text-2xl font-extrabold text-[#0C102A] mb-6">
+              {/* Feedback Form */}
+              <div className="mt-12 bg-[#F8F9FA] border border-slate-200/80 rounded-3xl p-8 shadow-sm">
+                <h2 className="text-2xl font-extrabold text-[#000000] mb-6">
                   Leave Feedback About This
                 </h2>
 
@@ -164,25 +173,25 @@ export default function PropertyDetailsPage() {
                   <textarea
                     placeholder="Write Your Comments"
                     rows={6}
-                    className="w-full border border-slate-200 rounded-2xl p-4 bg-white text-slate-800 outline-none focus:border-[#4F46E5] focus:ring-2 focus:ring-indigo-100 resize-none text-sm"
+                    className="w-full border border-slate-200 rounded-2xl p-4 bg-white text-slate-800 outline-none focus:border-[#C89B3C] focus:ring-2 focus:ring-amber-100/50 resize-none text-sm"
                   />
 
                   <div className="grid md:grid-cols-2 gap-5">
                     <input
                       type="text"
                       placeholder="Name"
-                      className="border border-slate-200 rounded-2xl p-4 bg-white text-slate-800 outline-none focus:border-[#4F46E5] focus:ring-2 focus:ring-indigo-100 text-sm"
+                      className="border border-slate-200 rounded-2xl p-4 bg-white text-slate-800 outline-none focus:border-[#C89B3C] focus:ring-2 focus:ring-amber-100/50 text-sm"
                     />
 
                     <input
                       type="email"
                       placeholder="Email"
-                      className="border border-slate-200 rounded-2xl p-4 bg-white text-slate-800 outline-none focus:border-[#4F46E5] focus:ring-2 focus:ring-indigo-100 text-sm"
+                      className="border border-slate-200 rounded-2xl p-4 bg-white text-slate-800 outline-none focus:border-[#C89B3C] focus:ring-2 focus:ring-amber-100/50 text-sm"
                     />
                   </div>
 
                   <div className="flex items-start gap-3">
-                    <input type="checkbox" className="mt-1 rounded accent-[#4F46E5]" />
+                    <input type="checkbox" className="mt-1 rounded accent-[#000000]" />
                     <label className="text-slate-600 text-xs">
                       Save my name, email, and website in this browser for the
                       next time I comment.
@@ -191,7 +200,7 @@ export default function PropertyDetailsPage() {
 
                   <button
                     type="submit"
-                    className="bg-gradient-to-r from-[#4F46E5] to-[#6366F1] text-white px-8 py-3.5 rounded-2xl font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-indigo-600/30 hover:scale-105 transition-all duration-300"
+                    className="bg-[#000000] hover:bg-[#C89B3C] text-white hover:text-black px-8 py-3.5 rounded-2xl font-extrabold text-xs uppercase tracking-wider shadow-md transition-all duration-300"
                   >
                     Send Feedback
                   </button>

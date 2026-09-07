@@ -251,6 +251,8 @@ export default function HomePage() {
   const investSwiperRef = useRef(null);
   const [activeStep, setActiveStep] = useState(0);
   const [activeModalStep, setActiveModalStep] = useState(null);
+  const [searchLocation, setSearchLocation] = useState("");
+  const [searchBudget, setSearchBudget] = useState("");
   const { ref, inView } = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -300,76 +302,208 @@ export default function HomePage() {
         </div>
 
         {/* Hero Overlay Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-6 py-16 md:py-20 w-full">
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            className="max-w-3xl"
-          >
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-[#C89B3C] font-extrabold text-[11px] tracking-widest uppercase mb-4 shadow-lg">
-              <span className="w-2 h-2 rounded-full bg-[#C89B3C] animate-ping"></span>
-              REAL ESTATE DEVELOPERS IN JAIPUR
-            </div>
-            
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight tracking-tight mb-4">
-              Build Your Future With <br />
-              <span className="text-[#C89B3C]">
-                Vrindavan Real Estate
-              </span>
-            </h1>
-
-            <p className="text-slate-200 text-sm sm:text-base font-medium leading-relaxed mb-6 max-w-xl">
-              Discover prime residential and commercial plots in Jaipur’s fastest-growing corridors with high appreciation potential.
-            </p>
-
-            <div className="flex flex-wrap gap-3.5 items-center mb-8">
-              <Link 
-                to="/projects"
-                className="px-6 py-3 rounded-full bg-[#111827] hover:bg-black text-white font-extrabold text-xs tracking-wider uppercase shadow-xl hover:scale-105 transition-all duration-300 flex items-center gap-2.5 border border-slate-700 group"
-              >
-                Explore Projects
-                <FaChevronRight size={11} className="text-[#C89B3C] group-hover:translate-x-1 transition-transform" />
-              </Link>
-
-              <Link 
-                to="/contact"
-                className="px-6 py-3 rounded-full bg-white/10 text-white font-extrabold text-xs tracking-wider uppercase backdrop-blur-md border border-white/20 hover:bg-white hover:text-[#111827] transition-all duration-300 shadow-lg"
-              >
-                Contact Us
-              </Link>
-            </div>
-
-            {/* Floating Quick Trust Stats Bar */}
-            <div className="pt-6 border-t border-white/15 grid grid-cols-3 gap-4 max-w-lg">
-              <div>
-                <h4 className="text-xl sm:text-2xl font-black text-white">50 Lac+</h4>
-                <p className="text-[10px] font-bold text-slate-300 uppercase tracking-wider mt-0.5">Completed Property</p>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 w-full">
+          <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            {/* Left Column (Main Copy & Embedded Glass Search Bar) */}
+            <motion.div 
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7 }}
+              className="lg:col-span-7 space-y-6"
+            >
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-[#C89B3C] font-bold text-[11px] tracking-widest uppercase shadow-lg">
+                <span className="w-2 h-2 rounded-full bg-[#C89B3C] animate-ping"></span>
+                REAL ESTATE DEVELOPERS IN JAIPUR
               </div>
-              <div>
-                <h4 className="text-xl sm:text-2xl font-black text-[#C89B3C]">7600+</h4>
-                <p className="text-[10px] font-bold text-slate-300 uppercase tracking-wider mt-0.5">Property Sales</p>
+              
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight tracking-tight">
+                Build Your Future With <br />
+                <span className="text-[#C89B3C]">
+                  Vrindavan Real Estate
+                </span>
+              </h1>
+
+              <p className="text-slate-200 text-sm sm:text-base font-medium leading-relaxed max-w-xl">
+                Discover prime JDA-approved residential & commercial plots in Jaipur’s fastest-growing corridors with high appreciation potential.
+              </p>
+
+              {/* Embedded Glassmorphic Quick Property Finder Bar (Option B) */}
+              <div className="bg-[#111827]/75 backdrop-blur-xl border border-white/20 rounded-2xl p-3.5 sm:p-4 shadow-2xl space-y-3 max-w-xl">
+                <div className="text-xs font-semibold text-[#C89B3C] tracking-wider uppercase flex items-center gap-1.5">
+                  <FaSearch size={11} /> Instant Property Finder
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {/* Location Selector */}
+                  <div className="relative">
+                    <select
+                      value={searchLocation}
+                      onChange={(e) => setSearchLocation(e.target.value)}
+                      className="w-full bg-white/10 text-white border border-white/20 rounded-xl px-3.5 py-2.5 text-xs font-medium outline-none focus:border-[#C89B3C] cursor-pointer appearance-none"
+                    >
+                      <option value="" className="bg-[#111827] text-white">Select Location / Township</option>
+                      <option value="Vasundhara Nagar" className="bg-[#111827] text-white">Vasundhara Nagar-II</option>
+                      <option value="Sridhar Nagar" className="bg-[#111827] text-white">Sridhar Nagar</option>
+                      <option value="Urmila Enclave" className="bg-[#111827] text-white">Urmila Enclave</option>
+                      <option value="Ajmer Road" className="bg-[#111827] text-white">Ajmer Road Belt</option>
+                    </select>
+                    <FaMapMarkerAlt className="absolute right-3.5 top-3 text-[#C89B3C] text-xs pointer-events-none" />
+                  </div>
+
+                  {/* Budget Selector */}
+                  <div className="relative">
+                    <select
+                      value={searchBudget}
+                      onChange={(e) => setSearchBudget(e.target.value)}
+                      className="w-full bg-white/10 text-white border border-white/20 rounded-xl px-3.5 py-2.5 text-xs font-medium outline-none focus:border-[#C89B3C] cursor-pointer appearance-none"
+                    >
+                      <option value="" className="bg-[#111827] text-white">Budget Range</option>
+                      <option value="Under 10L" className="bg-[#111827] text-white">Under ₹10 Lac</option>
+                      <option value="10L-20L" className="bg-[#111827] text-white">₹10 Lac - ₹20 Lac</option>
+                      <option value="20L+" className="bg-[#111827] text-white">₹20 Lac & Above</option>
+                    </select>
+                    <FaHome className="absolute right-3.5 top-3 text-[#C89B3C] text-xs pointer-events-none" />
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
+                  <div className="flex items-center gap-3 text-[11px] font-semibold text-slate-200">
+                    <span className="flex items-center gap-1"><FaCheckCircle className="text-[#C89B3C]" size={10} /> JDA Approved</span>
+                    <span className="flex items-center gap-1"><FaCheckCircle className="text-[#C89B3C]" size={10} /> 100% Registry</span>
+                  </div>
+
+                  <Link
+                    to={`/projects?location=${encodeURIComponent(searchLocation)}&budget=${encodeURIComponent(searchBudget)}`}
+                    className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-[#C89B3C] hover:bg-white text-black font-bold text-xs uppercase tracking-wider shadow-lg transition-all duration-300 flex items-center justify-center gap-2 group cursor-pointer"
+                  >
+                    Find Plots
+                    <FaChevronRight size={10} className="group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                </div>
               </div>
-              <div>
-                <h4 className="text-xl sm:text-2xl font-black text-white">6500+</h4>
-                <p className="text-[10px] font-bold text-slate-300 uppercase tracking-wider mt-0.5">Satisfied Clients</p>
+
+              {/* Action Buttons Row */}
+              <div className="flex flex-wrap gap-3.5 items-center pt-1">
+                <Link 
+                  to="/projects"
+                  className="px-6 py-3 rounded-full bg-[#111827] hover:bg-black text-white font-bold text-xs tracking-wider uppercase shadow-xl hover:scale-105 transition-all duration-300 flex items-center gap-2.5 border border-slate-700 group"
+                >
+                  Explore All Projects
+                  <FaChevronRight size={11} className="text-[#C89B3C] group-hover:translate-x-1 transition-transform" />
+                </Link>
+
+                <Link 
+                  to="/contact"
+                  className="px-6 py-3 rounded-full bg-white/10 text-white font-bold text-xs tracking-wider uppercase backdrop-blur-md border border-white/20 hover:bg-white hover:text-[#111827] transition-all duration-300 shadow-lg"
+                >
+                  Schedule Site Visit
+                </Link>
               </div>
-            </div>
-          </motion.div>
+
+              {/* Floating Quick Trust Stats Bar */}
+              <div className="pt-5 border-t border-white/15 grid grid-cols-3 gap-4 max-w-lg">
+                <div>
+                  <h4 className="text-xl sm:text-2xl font-bold text-white">50 Lac+</h4>
+                  <p className="text-[10px] font-bold text-slate-300 uppercase tracking-wider mt-0.5">Sq.Ft Developed</p>
+                </div>
+                <div>
+                  <h4 className="text-xl sm:text-2xl font-bold text-[#C89B3C]">7,600+</h4>
+                  <p className="text-[10px] font-bold text-slate-300 uppercase tracking-wider mt-0.5">Plot Sales</p>
+                </div>
+                <div>
+                  <h4 className="text-xl sm:text-2xl font-bold text-white">6,500+</h4>
+                  <p className="text-[10px] font-bold text-slate-300 uppercase tracking-wider mt-0.5">Happy Clients</p>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Right Column (Floating Luxury Featured Property Snippet Card - Option A) */}
+            <motion.div 
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+              className="lg:col-span-5 hidden lg:block"
+            >
+              <div className="bg-[#111827]/85 backdrop-blur-2xl border border-white/20 hover:border-[#C89B3C]/60 rounded-3xl p-6 shadow-2xl transition-all duration-500 space-y-4 relative overflow-hidden group">
+                <div className="absolute top-0 inset-x-0 h-1.5 bg-[#C89B3C]" />
+                
+                {/* Header Badge */}
+                <div className="flex items-center justify-between">
+                  <span className="px-3 py-1 rounded-full bg-[#C89B3C]/20 text-[#C89B3C] font-bold text-[10px] tracking-widest uppercase border border-[#C89B3C]/40">
+                    🔥 FEATURED PROJECT
+                  </span>
+                  <span className="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-[10px] border border-emerald-500/30">
+                    JDA APPROVED
+                  </span>
+                </div>
+
+                {/* Property Image Snippet */}
+                <div className="relative h-44 rounded-2xl overflow-hidden border border-white/10 group-hover:border-[#C89B3C]/40 transition-colors">
+                  <img 
+                    src={vasundhara} 
+                    alt="Vasundhara Nagar-II" 
+                    className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700" 
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                  <span className="absolute bottom-3 left-3 bg-[#C89B3C] text-black font-extrabold text-xs px-3 py-1 rounded-lg shadow-md">
+                    Starting ₹12 Lac
+                  </span>
+                  <span className="absolute bottom-3 right-3 bg-black/80 text-white font-medium text-[10px] px-2.5 py-1 rounded-lg border border-white/20 flex items-center gap-1">
+                    <FaMapMarkerAlt className="text-[#C89B3C]" size={9} /> Jaipur
+                  </span>
+                </div>
+
+                {/* Content */}
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-1 group-hover:text-[#C89B3C] transition-colors">
+                    Vasundhara Nagar-II
+                  </h3>
+                  <p className="text-slate-300 text-xs line-clamp-2 leading-relaxed font-medium">
+                    Prime residential township with 40ft wide roads, 24/7 gated security, and immediate registration.
+                  </p>
+                </div>
+
+                {/* Highlights Pills */}
+                <div className="grid grid-cols-3 gap-2 pt-1 border-t border-white/10 text-center">
+                  <div className="bg-white/5 p-2 rounded-xl border border-white/10">
+                    <div className="text-[#C89B3C] font-bold text-xs">40 Ft</div>
+                    <div className="text-[9px] text-slate-400 font-medium">Wide Road</div>
+                  </div>
+                  <div className="bg-white/5 p-2 rounded-xl border border-white/10">
+                    <div className="text-[#C89B3C] font-bold text-xs">24/7</div>
+                    <div className="text-[9px] text-slate-400 font-medium">Security</div>
+                  </div>
+                  <div className="bg-white/5 p-2 rounded-xl border border-white/10">
+                    <div className="text-[#C89B3C] font-bold text-xs">Ready</div>
+                    <div className="text-[9px] text-slate-400 font-medium">Possession</div>
+                  </div>
+                </div>
+
+                {/* CTA */}
+                <Link
+                  to="/property/Vasundhara%20Nagar-II"
+                  className="w-full py-3 rounded-2xl bg-[#C89B3C] hover:bg-white text-black font-bold text-xs uppercase tracking-wider shadow-xl transition-all duration-300 flex items-center justify-center gap-2 group-hover:shadow-gold cursor-pointer"
+                >
+                  View Property Details
+                  <FaChevronRight size={11} />
+                </Link>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </section>
 
       {/* Main Plot Projects Section */}
-      <section className="py-20 bg-[#F4F6FA]">
+      <section className="py-20 bg-[#F8F9FA]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <span className="px-4 py-1.5 rounded-full bg-[#111827] text-[#C89B3C] font-extrabold text-xs tracking-widest uppercase shadow-sm">
+            <span className="px-4 py-1.5 rounded-full bg-[#C89B3C]/10 text-[#C89B3C] font-semibold text-xs tracking-widest uppercase border border-[#C89B3C]/30 shadow-sm">
               OUR EXCLUSIVE PORTFOLIO
             </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3 tracking-tight">
+            <h2 className="text-3xl sm:text-4xl font-semibold text-slate-900 mt-3 tracking-tight">
               Our Featured Properties
             </h2>
-            <div className="h-1 w-20 bg-[#C89B3C] mx-auto mt-3 rounded-full"></div>
+            <div className="h-0.5 w-16 bg-[#C89B3C] mx-auto mt-3 rounded-full"></div>
           </div>
 
           <Swiper
@@ -392,7 +526,7 @@ export default function HomePage() {
               <SwiperSlide key={idx} className="h-auto!">
                 <Link 
                   to={`/property/${encodeURIComponent(project.title)}`}
-                  className="relative h-[460px] rounded-3xl overflow-hidden shadow-xl group border border-slate-200 hover:shadow-2xl transition-all duration-500 block bg-slate-900"
+                  className="relative h-[460px] rounded-3xl overflow-hidden shadow-lg group border border-slate-200/80 hover:shadow-xl transition-all duration-500 block bg-[#0F172A]"
                 >
                   {/* Background Property Image with Smooth Zoom */}
                   <img
@@ -406,53 +540,53 @@ export default function HomePage() {
 
                   {/* Top Badges */}
                   <div className="absolute top-4 left-4 z-10 flex items-center gap-2">
-                    <span className="bg-[#111827]/90 backdrop-blur-md text-white font-bold text-[11px] px-3 py-1 rounded-full border border-white/20 flex items-center gap-1.5 shadow-md">
+                    <span className="bg-black/70 backdrop-blur-md text-white font-medium text-[11px] px-3 py-1 rounded-full border border-white/20 flex items-center gap-1.5 shadow-md">
                       <FaMapMarkerAlt className="text-[#C89B3C] h-3 w-3" />
                       Jaipur, Rajasthan
                     </span>
                   </div>
 
                   {project.badge && (
-                    <div className="absolute top-4 right-4 z-10 bg-[#C89B3C] text-[#111827] font-black text-[10px] tracking-widest uppercase px-3 py-1 rounded-full shadow-lg">
+                    <div className="absolute top-4 right-4 z-10 bg-[#C89B3C] text-black font-semibold text-[10px] tracking-widest uppercase px-3 py-1 rounded-full shadow-md">
                       {project.badge}
                     </div>
                   )}
 
                   {/* Default State (Bottom Title & Price floating) - Hidden on Hover */}
                   <div className="absolute bottom-0 inset-x-0 p-6 z-10 transition-all duration-500 ease-in-out transform group-hover:translate-y-full group-hover:opacity-0">
-                    <h3 className="text-2xl font-extrabold text-white tracking-tight mb-2 drop-shadow-md">
+                    <h3 className="text-2xl font-semibold text-white tracking-tight mb-2 drop-shadow-md">
                       {project.title}
                     </h3>
                     <div className="flex items-center justify-between pt-3 border-t border-white/20">
-                      <span className="text-[#C89B3C] font-black text-lg">
+                      <span className="text-[#C89B3C] font-semibold text-lg">
                         {project.price}
                       </span>
-                      <span className="text-white/80 font-bold text-xs flex items-center gap-1">
+                      <span className="text-white/80 font-medium text-xs flex items-center gap-1">
                         Hover Overview <FaChevronRight size={10} className="text-[#C89B3C] rotate-[-90deg]" />
                       </span>
                     </div>
                   </div>
 
                   {/* Hover State: Slide-Up Glassmorphic Overview Panel */}
-                  <div className="absolute inset-x-0 bottom-0 bg-[#111827]/95 backdrop-blur-xl border-t-2 border-[#C89B3C] p-6 text-white rounded-t-3xl transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out z-20 flex flex-col justify-between shadow-2xl">
+                  <div className="absolute inset-x-0 bottom-0 bg-[#0F172A]/95 backdrop-blur-xl border-t-2 border-[#C89B3C] p-6 text-white rounded-t-3xl transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out z-20 flex flex-col justify-between shadow-2xl">
                     <div>
                       {/* Header */}
                       <div className="flex items-center justify-between mb-2">
-                        <h4 className="text-xl font-extrabold text-[#C89B3C]">
+                        <h4 className="text-xl font-semibold text-[#C89B3C]">
                           {project.title}
                         </h4>
-                        <span className="text-[#C89B3C] font-black text-sm bg-white/5 border border-[#C89B3C]/30 px-2.5 py-0.5 rounded-lg">
+                        <span className="text-[#C89B3C] font-semibold text-sm bg-white/5 border border-[#C89B3C]/30 px-2.5 py-0.5 rounded-lg">
                           {project.price}
                         </span>
                       </div>
 
-                      <div className="flex items-center text-slate-300 font-semibold text-xs mb-3">
+                      <div className="flex items-center text-slate-300 font-medium text-xs mb-3">
                         <FaMapMarkerAlt className="h-3 w-3 text-[#C89B3C] mr-1.5 shrink-0" />
                         <span>{project.location}</span>
                       </div>
 
                       {/* Brief Overview */}
-                      <p className="text-slate-300 leading-relaxed text-xs mb-4 line-clamp-3 font-medium">
+                      <p className="text-slate-300 leading-relaxed text-xs mb-4 line-clamp-3 font-normal">
                         {project.desc}
                       </p>
 
@@ -462,7 +596,7 @@ export default function HomePage() {
                           {project.features.map((feat, fIdx) => (
                             <span 
                               key={fIdx} 
-                              className="bg-white/10 text-white border border-white/15 text-[10px] font-bold px-2.5 py-1 rounded-md"
+                              className="bg-white/10 text-white border border-white/15 text-[10px] font-medium px-2.5 py-1 rounded-md"
                             >
                               ✓ {feat}
                             </span>
@@ -472,9 +606,9 @@ export default function HomePage() {
                     </div>
 
                     {/* CTA Button inside Slide-Up Panel */}
-                    <div className="w-full bg-[#C89B3C] hover:bg-white text-[#111827] font-extrabold text-xs tracking-wider uppercase py-3 px-4 rounded-xl flex items-center justify-between transition-all duration-300 shadow-xl group/btn mt-2">
+                    <div className="w-full bg-[#C89B3C] hover:bg-white text-black font-semibold text-xs tracking-wider uppercase py-3 px-4 rounded-xl flex items-center justify-between transition-all duration-300 shadow-lg group/btn mt-2">
                       <span>View Property Details</span>
-                      <FaChevronRight size={11} className="text-[#111827] group-hover/btn:translate-x-1 transition-transform" />
+                      <FaChevronRight size={11} className="text-black group-hover/btn:translate-x-1 transition-transform" />
                     </div>
                   </div>
                 </Link>
@@ -548,8 +682,8 @@ export default function HomePage() {
                     <div className="w-1.5 h-1.5 bg-[#C89B3C] rotate-45 -mt-0.5" />
                   </div>
 
-                  {/* Icon Node Circle with #000000 styling */}
-                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white border-2 border-slate-300 group-hover:border-[#C89B3C] group-hover:bg-[#000000] shadow-lg flex items-center justify-center p-3 transition-all duration-300 group-hover:scale-110">
+                  {/* Icon Node Circle with white background on hover */}
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white border-2 border-slate-300 group-hover:border-[#C89B3C] shadow-lg flex items-center justify-center p-3 transition-all duration-300 group-hover:scale-110">
                     <img src={step.icon} alt={step.title} className="w-full h-full object-contain" />
                   </div>
 
@@ -1361,8 +1495,8 @@ export default function HomePage() {
                       <FaPlay className="text-[#000000] text-xl ml-1" />
                     </div>
                   </div>
-                  <span className="bg-[#000000]/80 text-[#C89B3C] font-black text-xs tracking-wider uppercase px-4 py-1.5 rounded-full border border-[#C89B3C]/40 shadow-lg">
-                    Watch Virtual Site Tour 🎥
+                  <span className="bg-[#000000]/80 text-[#C89B3C] font-bold text-xs tracking-wider uppercase px-4 py-1.5 rounded-full border border-[#C89B3C]/40 shadow-lg">
+                    Watch Virtual Site Tour
                   </span>
                 </a>
               </motion.div>

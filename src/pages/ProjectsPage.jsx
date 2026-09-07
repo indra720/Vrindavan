@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import PageHeader from "../shared/PageHeader";
 import { motion } from "framer-motion";
 import { FaMapMarkerAlt, FaPlay } from "react-icons/fa";
 
@@ -57,23 +58,15 @@ export default function ProjectsPage() {
   const project = projectsData["Vasundhara Nagar-II"];
 
   return (
-    <div className="bg-[#F4F6FA]">
-      <div className="bg-[#000000] text-white py-14 border-b border-[#C89B3C]/20 shadow-2xl relative overflow-hidden">
-        <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-[#C89B3C]/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
-          <span className="px-4 py-1.5 rounded-full bg-white/10 text-[#C89B3C] font-extrabold text-xs tracking-widest uppercase border border-[#C89B3C]/30 shadow-md">
-            EXPLORE PROPERTIES
-          </span>
-          <h1 className="mt-3 text-4xl sm:text-5xl font-black text-white tracking-tight">
-            Property <span className="text-[#C89B3C]">Details & Listings</span>
-          </h1>
-          <div className="flex items-center gap-2 text-sm text-slate-300 font-semibold mt-3">
-            <Link to="/" className="hover:text-[#C89B3C] transition-colors">Home</Link>
-            <span className="text-[#C89B3C]">•</span>
-            <span className="text-white font-extrabold">Property Details</span>
-          </div>
-        </div>
-      </div>
+    <div className="bg-[#F8F9FA] min-h-screen">
+      {/* Ultra-Luxury Page Header */}
+      <PageHeader 
+        badge="EXPLORE PROPERTIES"
+        title="Property"
+        goldTitle="Details & Listings"
+        subtitle="Explore Premium JDA Approved Residential Plots & Commercial Growth Hubs in Jaipur"
+        breadcrumbs={[{ label: "Home", link: "/" }, { label: "Property Details" }]}
+      />
 
       <section className="py-20 bg-[#ededed] border-t border-slate-300 shadow-md relative overflow-hidden">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">

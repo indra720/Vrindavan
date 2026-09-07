@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import PageHeader from "../shared/PageHeader";
 import { motion } from "framer-motion";
 import {
   FaFacebookF,
@@ -9,27 +10,18 @@ import {
 
 export default function ContactPage() {
   return (
-    <div className="bg-[#ededed]">
-      {/* Hero Banner */}
-      <div className="bg-[#000000] text-white py-14 border-b border-[#C89B3C]/20 shadow-2xl relative overflow-hidden">
-        <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-[#C89B3C]/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
-          <span className="px-4 py-1.5 rounded-full bg-white/10 text-[#C89B3C] font-extrabold text-xs tracking-widest uppercase border border-[#C89B3C]/30 shadow-md">
-            GET IN TOUCH
-          </span>
-          <h1 className="mt-3 text-4xl sm:text-5xl font-black text-white tracking-tight">
-            Contact <span className="text-[#C89B3C]">Vrindavan Real Estate</span>
-          </h1>
-          <div className="flex items-center gap-2 text-sm text-slate-300 font-semibold mt-3">
-            <Link to="/" className="hover:text-[#C89B3C] transition-colors">Home</Link>
-            <span className="text-[#C89B3C]">•</span>
-            <span className="text-white font-extrabold">Contact Us</span>
-          </div>
-        </div>
-      </div>
+    <div className="bg-[#F8F9FA] min-h-screen">
+      {/* Ultra-Luxury Page Header */}
+      <PageHeader 
+        badge="GET IN TOUCH"
+        title="Contact"
+        goldTitle="Vrindavan Real Estate"
+        subtitle="Schedule a Property Site Visit or Speak Directly with Our Real Estate Investment Consultants"
+        breadcrumbs={[{ label: "Home", link: "/" }, { label: "Contact Us" }]}
+      />
 
       {/* Contact Cards & Map Section */}
-      <section className="py-20 bg-[#ededed]">
+      <section className="py-12 sm:py-16 bg-[#F8F9FA]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-10 items-start">
             {/* Left Side */}
@@ -40,26 +32,26 @@ export default function ContactPage() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
-                className="bg-white border-2 border-slate-200 hover:border-[#C89B3C] rounded-3xl p-8 shadow-lg transition-all duration-300 relative overflow-hidden"
+                className="bg-white border border-slate-200/80 hover:border-[#C89B3C]/50 rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-md transition-all duration-300 relative overflow-hidden"
               >
-                <div className="absolute top-0 inset-x-0 h-1.5 bg-[#C89B3C]" />
-                <span className="px-3.5 py-1 rounded-full bg-[#000000] text-[#C89B3C] font-black text-xs tracking-widest uppercase shadow-md mb-4 inline-block">
+                <div className="absolute top-0 inset-x-0 h-1 bg-[#C89B3C]" />
+                <span className="px-4 py-1.5 rounded-full bg-[#C89B3C]/10 text-[#C89B3C] font-semibold text-xs tracking-widest uppercase border border-[#C89B3C]/30 inline-block mb-4">
                   HEADQUARTERS
                 </span>
-                <h2 className="text-2xl font-black text-[#000000] mb-4">
+                <h2 className="text-2xl font-bold text-[#000000] mb-3">
                   Representative Office
                 </h2>
 
-                <p className="text-base leading-relaxed text-slate-700 font-medium mb-4">
+                <p className="text-base leading-relaxed text-slate-600 font-medium mb-4">
                   A4, Panchsheel Colony, Opp Diamond Tower, Purani Chungi, Ajmer
                   Road, Jaipur - 302019
                 </p>
 
-                <a href="tel:+917014289408" className="text-lg font-black text-[#000000] hover:text-[#C89B3C] transition-colors mb-2 block">
+                <a href="tel:+917014289408" className="text-lg font-bold text-[#000000] hover:text-[#C89B3C] transition-colors mb-2 block">
                   📞 (+91) 7014289408
                 </a>
 
-                <a href="mailto:info@vrindavanrealestate.in" className="text-base font-extrabold text-[#C89B3C] hover:underline">
+                <a href="mailto:info@vrindavanrealestate.in" className="text-base font-semibold text-[#C89B3C] hover:underline">
                   ✉ info@vrindavanrealestate.in
                 </a>
               </motion.div>
@@ -70,21 +62,21 @@ export default function ContactPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
-                className="bg-white border-2 border-slate-200 hover:border-[#C89B3C] rounded-3xl p-8 shadow-lg transition-all duration-300 relative overflow-hidden"
+                className="bg-white border border-slate-200/80 hover:border-[#C89B3C]/50 rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-md transition-all duration-300 relative overflow-hidden"
               >
-                <div className="absolute top-0 inset-x-0 h-1.5 bg-[#C89B3C]" />
-                <span className="px-3.5 py-1 rounded-full bg-[#000000] text-[#C89B3C] font-black text-xs tracking-widest uppercase shadow-md mb-4 inline-block">
+                <div className="absolute top-0 inset-x-0 h-1 bg-[#C89B3C]" />
+                <span className="px-4 py-1.5 rounded-full bg-[#C89B3C]/10 text-[#C89B3C] font-semibold text-xs tracking-widest uppercase border border-[#C89B3C]/30 inline-block mb-4">
                   DIRECT LINE
                 </span>
-                <h2 className="text-2xl font-black text-[#000000] mb-4">
+                <h2 className="text-2xl font-bold text-[#000000] mb-3">
                   Business Contacts
                 </h2>
 
-                <a href="tel:+917014289408" className="text-lg font-black text-[#000000] hover:text-[#C89B3C] transition-colors mb-2 block">
+                <a href="tel:+917014289408" className="text-lg font-bold text-[#000000] hover:text-[#C89B3C] transition-colors mb-2 block">
                   📞 (+91) 7014289408
                 </a>
 
-                <a href="mailto:info@vrindavanrealestate.in" className="text-base font-extrabold text-[#C89B3C] hover:underline">
+                <a href="mailto:info@vrindavanrealestate.in" className="text-base font-semibold text-[#C89B3C] hover:underline">
                   ✉ info@vrindavanrealestate.in
                 </a>
               </motion.div>
@@ -95,17 +87,17 @@ export default function ContactPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
-                className="bg-white border-2 border-slate-200 rounded-3xl p-8 shadow-lg flex flex-wrap items-center justify-between gap-4"
+                className="bg-white border border-slate-200/80 rounded-3xl p-6 sm:p-8 shadow-sm flex flex-wrap items-center justify-between gap-4"
               >
-                <h3 className="text-lg font-black text-[#000000]">
+                <h3 className="text-lg font-bold text-[#000000]">
                   Official Social Channels:
                 </h3>
 
                 <div className="flex items-center gap-3">
-                  <a href="https://www.facebook.com/vrindavanrealestatejaipur/" target="_blank" rel="noreferrer" className="w-11 h-11 rounded-2xl bg-[#000000] text-[#C89B3C] flex items-center justify-center hover:bg-[#C89B3C] hover:text-[#000000] transition-all shadow-md"><FaFacebookF size={16} /></a>
-                  <a href="https://www.twitter.com/" target="_blank" rel="noreferrer" className="w-11 h-11 rounded-2xl bg-[#000000] text-[#C89B3C] flex items-center justify-center hover:bg-[#C89B3C] hover:text-[#000000] transition-all shadow-md"><FaTwitter size={16} /></a>
-                  <a href="https://www.instagram.com/vrindavan_real_estatejaipur/" target="_blank" rel="noreferrer" className="w-11 h-11 rounded-2xl bg-[#000000] text-[#C89B3C] flex items-center justify-center hover:bg-[#C89B3C] hover:text-[#000000] transition-all shadow-md"><FaInstagram size={16} /></a>
-                  <a href="https://www.linkedin.com/" target="_blank" rel="noreferrer" className="w-11 h-11 rounded-2xl bg-[#000000] text-[#C89B3C] flex items-center justify-center hover:bg-[#C89B3C] hover:text-[#000000] transition-all shadow-md"><FaLinkedinIn size={16} /></a>
+                  <a href="https://www.facebook.com/vrindavanrealestatejaipur/" target="_blank" rel="noreferrer" className="w-11 h-11 rounded-2xl bg-[#000000] text-[#C89B3C] flex items-center justify-center hover:bg-[#C89B3C] hover:text-[#000000] transition-all shadow-sm"><FaFacebookF size={16} /></a>
+                  <a href="https://www.twitter.com/" target="_blank" rel="noreferrer" className="w-11 h-11 rounded-2xl bg-[#000000] text-[#C89B3C] flex items-center justify-center hover:bg-[#C89B3C] hover:text-[#000000] transition-all shadow-sm"><FaTwitter size={16} /></a>
+                  <a href="https://www.instagram.com/vrindavan_real_estatejaipur/" target="_blank" rel="noreferrer" className="w-11 h-11 rounded-2xl bg-[#000000] text-[#C89B3C] flex items-center justify-center hover:bg-[#C89B3C] hover:text-[#000000] transition-all shadow-sm"><FaInstagram size={16} /></a>
+                  <a href="https://www.linkedin.com/" target="_blank" rel="noreferrer" className="w-11 h-11 rounded-2xl bg-[#000000] text-[#C89B3C] flex items-center justify-center hover:bg-[#C89B3C] hover:text-[#000000] transition-all shadow-sm"><FaLinkedinIn size={16} /></a>
                 </div>
               </motion.div>
             </div>
@@ -116,7 +108,7 @@ export default function ContactPage() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="overflow-hidden rounded-3xl border-2 border-slate-200 shadow-xl bg-white p-2"
+              className="overflow-hidden rounded-3xl border border-slate-200/80 shadow-sm bg-white p-2.5"
             >
               <iframe
                 title="Vrindavan Real Estate Location"
@@ -137,33 +129,33 @@ export default function ContactPage() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="py-24 bg-white border-t border-slate-300"
+        className="py-16 sm:py-24 bg-white border-t border-slate-200/80"
       >
-        <div className="max-w-4xl mx-auto px-6">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <span className="px-4 py-1.5 rounded-full bg-[#000000] text-[#C89B3C] font-extrabold text-xs tracking-widest uppercase shadow-md">
+            <span className="px-4 py-1.5 rounded-full bg-[#C89B3C]/10 text-[#C89B3C] font-semibold text-xs tracking-widest uppercase border border-[#C89B3C]/30 inline-block mb-3">
               SEND MESSAGE
             </span>
 
-            <h2 className="text-3xl sm:text-4xl font-black text-[#000000] mt-3 tracking-tight">
+            <h2 className="text-3xl sm:text-4xl font-bold text-[#000000] tracking-tight">
               Feel Free To Contact Us <span className="text-[#C89B3C]">Anytime</span>
             </h2>
-            <div className="h-1 w-20 bg-[#C89B3C] mx-auto mt-4 rounded-full" />
+            <div className="h-0.5 w-16 bg-[#C89B3C] mx-auto mt-3 rounded-full" />
           </div>
 
-          <form className="space-y-6 bg-[#ededed] border border-slate-300 rounded-3xl p-8 md:p-12 shadow-xl">
+          <form className="space-y-6 bg-[#F8F9FA] border border-slate-200/80 rounded-3xl p-6 sm:p-10 shadow-sm">
             <div className="grid md:grid-cols-2 gap-6">
               <input
                 type="text"
                 placeholder="Full Name *"
                 required
-                className="w-full border border-slate-300 rounded-2xl p-4 bg-white text-slate-800 outline-none focus:border-[#C89B3C] focus:ring-2 focus:ring-[#C89B3C]/20 text-sm font-medium"
+                className="w-full border border-slate-200 rounded-2xl p-4 bg-white text-slate-800 outline-none focus:border-[#C89B3C] focus:ring-2 focus:ring-[#C89B3C]/20 text-sm font-medium transition-all"
               />
               <input
                 type="email"
                 placeholder="Email Address *"
                 required
-                className="w-full border border-slate-300 rounded-2xl p-4 bg-white text-slate-800 outline-none focus:border-[#C89B3C] focus:ring-2 focus:ring-[#C89B3C]/20 text-sm font-medium"
+                className="w-full border border-slate-200 rounded-2xl p-4 bg-white text-slate-800 outline-none focus:border-[#C89B3C] focus:ring-2 focus:ring-[#C89B3C]/20 text-sm font-medium transition-all"
               />
             </div>
 
@@ -172,12 +164,12 @@ export default function ContactPage() {
                 type="tel"
                 placeholder="Phone Number *"
                 required
-                className="w-full border border-slate-300 rounded-2xl p-4 bg-white text-slate-800 outline-none focus:border-[#C89B3C] focus:ring-2 focus:ring-[#C89B3C]/20 text-sm font-medium"
+                className="w-full border border-slate-200 rounded-2xl p-4 bg-white text-slate-800 outline-none focus:border-[#C89B3C] focus:ring-2 focus:ring-[#C89B3C]/20 text-sm font-medium transition-all"
               />
               <input
                 type="text"
                 placeholder="Subject / Property Name"
-                className="w-full border border-slate-300 rounded-2xl p-4 bg-white text-slate-800 outline-none focus:border-[#C89B3C] focus:ring-2 focus:ring-[#C89B3C]/20 text-sm font-medium"
+                className="w-full border border-slate-200 rounded-2xl p-4 bg-white text-slate-800 outline-none focus:border-[#C89B3C] focus:ring-2 focus:ring-[#C89B3C]/20 text-sm font-medium transition-all"
               />
             </div>
 
@@ -185,12 +177,12 @@ export default function ContactPage() {
               placeholder="Your Inquiry Message *"
               rows={5}
               required
-              className="w-full border border-slate-300 rounded-2xl p-4 bg-white text-slate-800 outline-none focus:border-[#C89B3C] focus:ring-2 focus:ring-[#C89B3C]/20 resize-none text-sm font-medium"
+              className="w-full border border-slate-200 rounded-2xl p-4 bg-white text-slate-800 outline-none focus:border-[#C89B3C] focus:ring-2 focus:ring-[#C89B3C]/20 resize-none text-sm font-medium transition-all"
             />
 
             <button
               type="submit"
-              className="bg-[#000000] hover:bg-[#C89B3C] text-white hover:text-[#000000] px-10 py-4 rounded-2xl font-black text-xs uppercase tracking-wider shadow-xl transition-all duration-300 cursor-pointer"
+              className="bg-[#000000] hover:bg-[#C89B3C] text-white hover:text-[#000000] px-10 py-4 rounded-2xl font-bold text-xs uppercase tracking-wider shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
             >
               Send Message Now
             </button>
